@@ -43,29 +43,50 @@ class Battle
     @fields_initialized = false
   end
 
+  # Override backdrop so PE's pbCreateBackdropSprites loads the field bitmap
+  # directly, instead of the environment bitmap. PE reads this to determine
+  # which file to load: "Graphics/Battlebacks/#{backdrop}_bg".
+  # We return the field_id only when that file actually exists.
+  alias field_backdrop backdrop
+  def backdrop
+    if has_field? && !@current_field.is_base?
+      field_id = @current_field.id.to_s.downcase
+      bg_path  = "Graphics/Battlebacks/#{field_id}_bg"
+      return field_id if pbResolveBitmap(bg_path)
+    end
+    field_backdrop
+  end
+
   alias field_pbStartBattle pbStartBattle
-  def pbStartBattle # recommend
-    # Don't set fields yet - wait for scene to be ready
+  def pbStartBattle
+    # set_default_field runs here: backdrop is fully populated (PE's initialize
+    # is done), but the scene hasn't created any sprites yet. This means our
+    # backdrop override will return the correct field ID when PE calls
+    # pbCreateBackdropSprites, so the right bitmap is drawn from frame 1.
+    set_default_field
+    @fields_initialized = true
     field_pbStartBattle
   end
-  
-  # Initialize fields after the battle scene is fully set up
+
   alias field_pbBattleLoop pbBattleLoop
   def pbBattleLoop
-    # Set default field at the very start of the battle loop
-    # At this point, all sprites are guaranteed to exist
-    unless @fields_initialized
-      set_default_field
+    # Field was initialized in Battle#initialize. Show the announcement now
+    # that the intro animation has finished.
+    @suppress_field_announcements = false
+    if has_field? && !@current_field.is_base? && !@field_announcement_shown
       apply_field_effect(:begin_battle)
-      @fields_initialized = true
-      
-      # Now that sprites exist, show the field announcement
-      @suppress_field_announcements = false
-      if has_field? && !@current_field.is_base?
-        field_announcement(:start)
-      end
+      field_announcement(:start)
+      @field_announcement_shown = true
     end
     field_pbBattleLoop
+  end
+
+  def fields_initialized?
+    @fields_initialized == true
+  end
+
+  def mark_fields_initialized
+    @fields_initialized = true
   end
 
   def create_base_field
@@ -631,7 +652,9 @@ class Battle::Scene
   alias field_pbCreateBackdropSprites pbCreateBackdropSprites
   def pbCreateBackdropSprites
     field_pbCreateBackdropSprites
-    # Store environment backdrops for later restoration
+    # Store whatever PE drew as the "environment" bitmaps so we can restore
+    # them if the field changes mid-battle. Because backdrop now returns the
+    # field ID when a field is active, PE has already drawn the correct bitmap.
     @environment_battleBG   = @sprites["battle_bg"].bitmap if @sprites["battle_bg"]
     @environment_playerBase = @sprites["base_0"].bitmap if @sprites["base_0"]
     @environment_enemyBase  = @sprites["base_1"].bitmap if @sprites["base_1"]

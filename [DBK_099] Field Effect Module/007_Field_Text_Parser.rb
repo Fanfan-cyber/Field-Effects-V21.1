@@ -817,6 +817,44 @@ class FieldTextParser
       map_id: [],
       edge_type: []
     })
+
+    # Register graphic variant alias classes.
+    #
+    # Each entry in :graphic (e.g. "Forest_greenwood", "Forest_greenwood_day")
+    # gets its own Battle::Field_xxx class that inherits the parent field's full
+    # mechanics.  This lets create_new_field find the right class by name when
+    # the battle backdrop exactly matches a variant string — without needing to
+    # enable ACTIVATE_VARIETY_FIELD_SETTING or any extra lookup tables.
+    #
+    # @id is kept as field_id_lower (e.g. :forest) so every is_forest? check
+    # in the codebase continues to work correctly for all graphic variants.
+    graphics = data[:graphic] || []
+    graphics.each do |graphic|
+      graphic_sym        = graphic.to_s.downcase.to_sym
+      next if graphic_sym == field_id_lower          # primary already registered
+      graphic_class_name = "Field_#{graphic_sym}"
+      next if Battle.const_defined?(graphic_class_name) # already exists (e.g. hand-coded)
+
+      # Capture locals for the inner Class.new block
+      parent_class  = field_class
+      parent_id     = field_id_lower
+
+      graphic_alias = Class.new(parent_class) do
+        define_method(:initialize) do |battle, duration = Battle::Field::DEFAULT_FIELD_DURATION|
+          super(battle, duration)
+          # Keep @id as the parent field's id so all is_xxx? helpers work.
+          # The class name (Field_forest_greenwood etc.) is what lets
+          # create_new_field locate us directly from the backdrop string.
+          @id = parent_id
+        end
+      end
+
+      Battle.const_set(graphic_class_name, graphic_alias)
+
+      if $DEBUG
+        Console.echo_li("[Field Parser] Graphic alias #{graphic_class_name} -> :#{parent_id}")
+      end
+    end
   end
 end
 
