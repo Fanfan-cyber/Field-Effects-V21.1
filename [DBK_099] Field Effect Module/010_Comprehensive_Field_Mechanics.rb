@@ -1103,7 +1103,7 @@ end
 class Battle::Move::TargetStatDownMove
   include FieldStatStageMod
   
-  alias fieldeffects_statdown_pbOnStartUse pbOnStartUse if method_defined?(:pbOnStartUse)
+  alias fieldeffects_statdown_pbOnStartUse pbOnStartUse unless method_defined?(:fieldeffects_statdown_pbOnStartUse)
   
   def pbOnStartUse(user, targets)
     respond_to?(:fieldeffects_statdown_pbOnStartUse) ? fieldeffects_statdown_pbOnStartUse(user, targets) : super
@@ -1121,7 +1121,7 @@ class Battle::Move::TargetStatDownMove
     @field_stat_config = config if config[:message]
   end
   
-  alias fieldeffects_statdown_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias fieldeffects_statdown_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:fieldeffects_statdown_pbEffectAgainstTarget)
   
   def pbEffectAgainstTarget(user, target)
     unless @field_stat_config&.dig(:message)
@@ -1142,7 +1142,7 @@ end
 class Battle::Move::StatUpMove
   include FieldStatStageMod
   
-  alias fieldeffects_statup_pbOnStartUse pbOnStartUse if method_defined?(:pbOnStartUse)
+  alias fieldeffects_statup_pbOnStartUse pbOnStartUse unless method_defined?(:fieldeffects_statup_pbOnStartUse)
   
   def pbOnStartUse(user, targets)
     respond_to?(:fieldeffects_statup_pbOnStartUse) ? fieldeffects_statup_pbOnStartUse(user, targets) : super
@@ -1160,7 +1160,7 @@ class Battle::Move::StatUpMove
     @field_stat_config = config if config[:message]
   end
   
-  alias fieldeffects_statup_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias fieldeffects_statup_pbEffectGeneral pbEffectGeneral unless method_defined?(:fieldeffects_statup_pbEffectGeneral)
   
   def pbEffectGeneral(user)
     unless @field_stat_config&.dig(:message)
@@ -1181,7 +1181,7 @@ end
 class Battle::Move::MultiStatUpMove
   include FieldStatStageMod
   
-  alias fieldeffects_multistatup_pbOnStartUse pbOnStartUse if method_defined?(:pbOnStartUse)
+  alias fieldeffects_multistatup_pbOnStartUse pbOnStartUse unless method_defined?(:fieldeffects_multistatup_pbOnStartUse)
   
   def pbOnStartUse(user, targets)
     respond_to?(:fieldeffects_multistatup_pbOnStartUse) ? fieldeffects_multistatup_pbOnStartUse(user, targets) : super
@@ -1206,7 +1206,7 @@ end
 class Battle
   attr_accessor :field_stat_override
   
-  alias field_stat_override_pbDisplay pbDisplay if method_defined?(:pbDisplay)
+  alias field_stat_override_pbDisplay pbDisplay unless method_defined?(:field_stat_override_pbDisplay)
   
   def pbDisplay(msg, &block)
     return if @field_stat_override
@@ -1297,7 +1297,7 @@ Battle::AbilityEffects::OnSwitchIn.add(:FRISK,
 
 # Pursuit - Raises Speed when KOing
 class Battle::Move::DoublePowerIfTargetActed
-  alias backalley_pbEffectAfterAllHits pbEffectAfterAllHits if method_defined?(:pbEffectAfterAllHits)
+  alias backalley_pbEffectAfterAllHits pbEffectAfterAllHits unless method_defined?(:backalley_pbEffectAfterAllHits)
   
   def pbEffectAfterAllHits(user, target)
     respond_to?(:backalley_pbEffectAfterAllHits) ? backalley_pbEffectAfterAllHits(user, target) : super
@@ -1313,7 +1313,7 @@ end
 
 # Trick/Switcheroo - Stat swap effects
 class Battle::Move::UserTargetSwapItems
-  alias backalley_pbEffectAfterAllHits pbEffectAfterAllHits if method_defined?(:pbEffectAfterAllHits)
+  alias backalley_pbEffectAfterAllHits pbEffectAfterAllHits unless method_defined?(:backalley_pbEffectAfterAllHits)
   
   def pbEffectAfterAllHits(user, target)
     ret = backalley_pbEffectAfterAllHits(user, target)
@@ -1336,7 +1336,7 @@ end
 
 # Snatch - Raises random stat by 2 stages when successful
 class Battle::Move::StealAndUseBeneficialStatusMove
-  alias backalley_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias backalley_pbEffectGeneral pbEffectGeneral unless method_defined?(:backalley_pbEffectGeneral)
   
   def pbEffectGeneral(user)
     ret = backalley_pbEffectGeneral(user)
@@ -1353,7 +1353,7 @@ end
 
 # Thief/Covet - 2x power when successfully stealing
 class Battle::Move::RemoveTargetItem
-  alias backalley_pbBaseDamage pbBaseDamage if method_defined?(:pbBaseDamage)
+  alias backalley_pbBaseDamage pbBaseDamage unless method_defined?(:backalley_pbBaseDamage)
   
   def pbBaseDamage(baseDmg, user, target)
     dmg = backalley_pbBaseDamage(baseDmg, user, target)
@@ -1381,7 +1381,7 @@ MURKWATER_IDS = %i[murkwatersurface].freeze
 
 # EOR poison damage for grounded non-Poison/Steel types
 class Battle
-  alias murkwater_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias murkwater_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:murkwater_pbEndOfRoundPhase)
   
   def pbEndOfRoundPhase
     murkwater_pbEndOfRoundPhase
@@ -1442,7 +1442,7 @@ BIG_TOP_IDS = %i[bigtop].freeze
 
 # Sound-based moves get 1.5x boost
 class Battle::Move
-  alias bigtop_sound_pbCalcDamageMultipliers pbCalcDamageMultipliers if method_defined?(:pbCalcDamageMultipliers)
+  alias bigtop_sound_pbCalcDamageMultipliers pbCalcDamageMultipliers unless method_defined?(:bigtop_sound_pbCalcDamageMultipliers)
   
   def pbCalcDamageMultipliers(user, target, numTargets, type, baseDmg, multipliers)
     respond_to?(:bigtop_sound_pbCalcDamageMultipliers) ? bigtop_sound_pbCalcDamageMultipliers(user, target, numTargets, type, baseDmg, multipliers) : super
@@ -1513,7 +1513,7 @@ end
 
 # Acrobatics always deals double damage
 class Battle::Move::DoublePowerIfUserHasNoItem
-  alias bigtop_pbBaseDamage pbBaseDamage if method_defined?(:pbBaseDamage)
+  alias bigtop_pbBaseDamage pbBaseDamage unless method_defined?(:bigtop_pbBaseDamage)
   
   def pbBaseDamage(baseDmg, user, target)
     ret = bigtop_pbBaseDamage(baseDmg, user, target)
@@ -1539,7 +1539,7 @@ ROCKY_FIELD_IDS = %i[rocky].freeze
 
 # Flinched Pokemon take 1/4 HP damage, Pokemon with raised Defense can't flinch
 class Battle::Battler
-  alias rocky_pbFlinch pbFlinch if method_defined?(:pbFlinch)
+  alias rocky_pbFlinch pbFlinch unless method_defined?(:rocky_pbFlinch)
   
   def pbFlinch(user = nil)
     # Check if on Rocky Field with raised Defense - prevent flinch
@@ -1566,7 +1566,7 @@ end
 
 # Missing physical contact move = 1/8 HP recoil
 class Battle::Battler
-  alias rocky_pbEffectsAfterMove pbEffectsAfterMove if method_defined?(:pbEffectsAfterMove)
+  alias rocky_pbEffectsAfterMove pbEffectsAfterMove unless method_defined?(:rocky_pbEffectsAfterMove)
   
   def pbEffectsAfterMove(user, targets, move, numHits)
     respond_to?(:rocky_pbEffectsAfterMove) ? rocky_pbEffectsAfterMove(user, targets, move, numHits) : super
@@ -1589,7 +1589,7 @@ end
 
 # Long Reach accuracy drop (0.9x)
 class Battle::Move
-  alias rocky_pbBaseAccuracy pbBaseAccuracy if method_defined?(:pbBaseAccuracy)
+  alias rocky_pbBaseAccuracy pbBaseAccuracy unless method_defined?(:rocky_pbBaseAccuracy)
   
   def pbBaseAccuracy(user, target)
     ret = rocky_pbBaseAccuracy(user, target)
@@ -1778,7 +1778,7 @@ end
 # Type effectiveness changes
 class Battle::Move
   # Properly alias so the original PE type chart is preserved in the chain
-  alias bewitched_pbCalcTypeMod pbCalcTypeMod if method_defined?(:pbCalcTypeMod)
+  alias bewitched_pbCalcTypeMod pbCalcTypeMod unless method_defined?(:bewitched_pbCalcTypeMod)
 
   def pbCalcTypeMod(moveType, user, target)
     typeMod = bewitched_pbCalcTypeMod(moveType, user, target)
@@ -2609,7 +2609,7 @@ class Battle::Move::PoisonTarget
     respond_to?(:city_pbFailsAgainstTarget?) ? city_pbFailsAgainstTarget?(user, target, show_message) : super
   end
 
-  alias city_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias city_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:city_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     if @city_field_boost
@@ -2638,7 +2638,7 @@ end
 
 # Corrosive Gas - Lowers all stats by 1 stage when successful
 class Battle::Move::RemoveTargetItem
-  alias city_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias city_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:city_pbEffectAgainstTarget)
   
   def pbEffectAgainstTarget(user, target)
     ret = city_pbEffectAgainstTarget(user, target)
@@ -2668,7 +2668,7 @@ SNOWY_MOUNTAIN_IDS = %i[snowymountain].freeze
 
 # Ice-type Defense boost during Hail (1.5x)
 class Battle::Move
-  alias snowy_pbCalcDamageMultipliers pbCalcDamageMultipliers if method_defined?(:pbCalcDamageMultipliers)
+  alias snowy_pbCalcDamageMultipliers pbCalcDamageMultipliers unless method_defined?(:snowy_pbCalcDamageMultipliers)
   
   def pbCalcDamageMultipliers(user, target, numTargets, type, baseDmg, multipliers)
     respond_to?(:snowy_pbCalcDamageMultipliers) ? snowy_pbCalcDamageMultipliers(user, target, numTargets, type, baseDmg, multipliers) : super
@@ -2868,7 +2868,7 @@ BLESSED_FIELD_IDS = %i[holy].freeze
 
 # Normal hits Ghost and Dark for super effective damage
 class Battle::Move
-  alias blessed_pbCalcTypeMod pbCalcTypeMod if method_defined?(:pbCalcTypeMod)
+  alias blessed_pbCalcTypeMod pbCalcTypeMod unless method_defined?(:blessed_pbCalcTypeMod)
 
   def pbCalcTypeMod(moveType, user, target)
     typeMod = blessed_pbCalcTypeMod(moveType, user, target)
@@ -2882,7 +2882,7 @@ end
 
 # Partner damage immunity - Pokemon avoid damage from partner's moves
 class Battle::Move
-  alias blessed_pbChangeTargetHP pbChangeTargetHP if method_defined?(:pbChangeTargetHP)
+  alias blessed_pbChangeTargetHP pbChangeTargetHP unless method_defined?(:blessed_pbChangeTargetHP)
   
   def pbChangeTargetHP(target, damage, opts = {})
     # On Blessed Field, partners don't take damage
@@ -2904,7 +2904,7 @@ end
 # Wish - Restores 75% HP
 # Life Dew - 50% healing (from 25%)
 class Battle::Battler
-  alias blessed_healing_pbRecoverHP pbRecoverHP if method_defined?(:pbRecoverHP)
+  alias blessed_healing_pbRecoverHP pbRecoverHP unless method_defined?(:blessed_healing_pbRecoverHP)
   
   def pbRecoverHP(amt, anim = true)
     # Check healing moves on Blessed Field
@@ -2925,7 +2925,7 @@ end
 
 # Nature's Madness - 66% HP damage
 class Battle::Move::LowerTargetHPToUserHP
-  alias blessed_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias blessed_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:blessed_pbEffectAgainstTarget)
   
   def pbEffectAgainstTarget(user, target)
     if @id == :NATURESMADNESS &&
@@ -2943,7 +2943,7 @@ end
 
 # Curse (Ghost-type) - Lifted at end of turn
 class Battle
-  alias blessed_curse_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias blessed_curse_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:blessed_curse_pbEndOfRoundPhase)
   
   def pbEndOfRoundPhase
     blessed_curse_pbEndOfRoundPhase
@@ -2962,7 +2962,7 @@ end
 
 # Spirit Break - Super effective vs Ghost
 class Battle::Move::LowerTargetAtkSpAtk1
-  alias blessed_pbCalcTypeModSingle pbCalcTypeModSingle if method_defined?(:pbCalcTypeModSingle)
+  alias blessed_pbCalcTypeModSingle pbCalcTypeModSingle unless method_defined?(:blessed_pbCalcTypeModSingle)
   
   def pbCalcTypeModSingle(moveType, defType, user, target)
     ret = blessed_pbCalcTypeModSingle(moveType, defType, user, target)
@@ -3017,7 +3017,7 @@ HAUNTED_FIELD_IDS = %i[haunted].freeze
 
 # Sleep HP loss - Non-Ghost types lose HP while asleep
 class Battle
-  alias haunted_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias haunted_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:haunted_pbEndOfRoundPhase)
   
   def pbEndOfRoundPhase
     haunted_pbEndOfRoundPhase
@@ -3038,7 +3038,7 @@ end
 
 # Ghost neutral to Normal - Override type effectiveness
 class Battle::Move
-  alias haunted_pbCalcTypeMod pbCalcTypeMod if method_defined?(:pbCalcTypeMod)
+  alias haunted_pbCalcTypeMod pbCalcTypeMod unless method_defined?(:haunted_pbCalcTypeMod)
   
   def pbCalcTypeMod(moveType, user, target)
     typeMod = haunted_pbCalcTypeMod(moveType, user, target)
@@ -3058,7 +3058,7 @@ end
 
 # Nightmare - More damage on Haunted Field
 class Battle
-  alias haunted_nightmare_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias haunted_nightmare_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:haunted_nightmare_pbEndOfRoundPhase)
   
   def pbEndOfRoundPhase
     haunted_nightmare_pbEndOfRoundPhase
@@ -3084,7 +3084,7 @@ end
 
 # Spite - Depletes 2 more PP (total 4 instead of 2)
 class Battle::Move::LowerPPOfTargetLastMoveBy4
-  alias haunted_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias haunted_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:haunted_pbEffectAgainstTarget)
   
   def pbEffectAgainstTarget(user, target)
     # Change to deplete 6 PP on Haunted Field (4 base + 2 extra)
@@ -3100,7 +3100,7 @@ end
 
 # Ominous Wind - 20% chance to raise all stats (from 10%)
 class Battle::Move::RaiseUserMainStats1
-  alias haunted_pbAdditionalEffect pbAdditionalEffect if method_defined?(:pbAdditionalEffect)
+  alias haunted_pbAdditionalEffect pbAdditionalEffect unless method_defined?(:haunted_pbAdditionalEffect)
   
   def pbAdditionalEffect(user, target)
     if @id == :OMINOUSWIND &&
@@ -3122,7 +3122,7 @@ end
 
 # Fire Spin - 1/6 damage instead of 1/8
 class Battle
-  alias haunted_firespin_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias haunted_firespin_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:haunted_firespin_pbEndOfRoundPhase)
   
   def pbEndOfRoundPhase
     haunted_firespin_pbEndOfRoundPhase
@@ -3160,7 +3160,7 @@ class Battle::Move::ParalyzeTarget
     respond_to?(:haunted_pbFailsAgainstTarget?) ? haunted_pbFailsAgainstTarget?(user, target, show_message) : super
   end
   
-  alias haunted_pbAdditionalEffect pbAdditionalEffect if method_defined?(:pbAdditionalEffect)
+  alias haunted_pbAdditionalEffect pbAdditionalEffect unless method_defined?(:haunted_pbAdditionalEffect)
   
   def pbAdditionalEffect(user, target)
     if @haunted_boost
@@ -3240,7 +3240,7 @@ Battle::AbilityEffects::OnSwitchIn.add(:RATTLED,
 
 # Night Shade - 1.5x damage on Haunted Field
 class Battle::Move::FixedDamageUserLevel
-  alias haunted_pbFixedDamage pbFixedDamage if method_defined?(:pbFixedDamage)
+  alias haunted_pbFixedDamage pbFixedDamage unless method_defined?(:haunted_pbFixedDamage)
   
   def pbFixedDamage(user, target)
     dmg = haunted_pbFixedDamage(user, target)
@@ -3258,7 +3258,7 @@ end
 
 # Magic Powder - Puts target to sleep on Haunted Field
 class Battle::Move::SetTargetTypesToPsychic
-  alias haunted_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias haunted_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:haunted_pbEffectAgainstTarget)
   
   def pbEffectAgainstTarget(user, target)
     if @id == :MAGICPOWDER &&
@@ -3308,7 +3308,7 @@ class Battle::Move::TrapTargetInBattle
     return ret
   end
   
-  alias haunted_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias haunted_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:haunted_pbEffectAgainstTarget)
   
   def pbEffectAgainstTarget(user, target)
     ret = haunted_pbEffectAgainstTarget(user, target)
@@ -3332,7 +3332,7 @@ end
 
 # Fire Spin - Targets both opponents on Haunted Field
 class Battle::Move::BindTarget
-  alias haunted_pbNumHits pbNumHits if method_defined?(:pbNumHits)
+  alias haunted_pbNumHits pbNumHits unless method_defined?(:haunted_pbNumHits)
   
   def pbNumHits(user, targets)
     # On Haunted Field, Fire Spin hits all opponents
@@ -3346,7 +3346,7 @@ class Battle::Move::BindTarget
     respond_to?(:haunted_pbNumHits) ? haunted_pbNumHits(user, targets) : super
   end
   
-  alias haunted_pbModifyTargets pbModifyTargets if method_defined?(:pbModifyTargets)
+  alias haunted_pbModifyTargets pbModifyTargets unless method_defined?(:haunted_pbModifyTargets)
   
   def pbModifyTargets(targets, user)
     # If Fire Spin on Haunted Field, target all opponents
@@ -3369,7 +3369,7 @@ end
 
 # Spirit Break - Super effective vs Ghost on Haunted Field
 class Battle::Move::LowerTargetAtkSpAtk1
-  alias haunted_pbCalcTypeModSingle pbCalcTypeModSingle if method_defined?(:pbCalcTypeModSingle)
+  alias haunted_pbCalcTypeModSingle pbCalcTypeModSingle unless method_defined?(:haunted_pbCalcTypeModSingle)
   
   def pbCalcTypeModSingle(moveType, defType, user, target)
     ret = haunted_pbCalcTypeModSingle(moveType, defType, user, target)
@@ -3419,7 +3419,7 @@ CANYON_FIELD_IDS = %i[canyon].freeze
 # ROCKY side: Flinched Pokemon take 1/4 HP damage; raised Defense prevents flinch
 # ---------------------------------------------------------------------------
 class Battle::Battler
-  alias canyon_pbFlinch pbFlinch if method_defined?(:canyon_pbFlinch) == false && method_defined?(:pbFlinch)
+  alias canyon_pbFlinch pbFlinch unless method_defined?(:canyon_pbFlinch)
 
   def pbFlinch(user = nil)
     if @battle.has_field? && CANYON_FIELD_IDS.include?(@battle.current_field.id)
@@ -3446,7 +3446,7 @@ end
 # ROCKY side: Missing a physical contact move = 1/8 HP recoil (Gorilla Tactics x2)
 # ---------------------------------------------------------------------------
 class Battle::Battler
-  alias canyon_pbEffectsAfterMove pbEffectsAfterMove if method_defined?(:canyon_pbEffectsAfterMove) == false && method_defined?(:pbEffectsAfterMove)
+  alias canyon_pbEffectsAfterMove pbEffectsAfterMove unless method_defined?(:canyon_pbEffectsAfterMove)
 
   def pbEffectsAfterMove(user, targets, move, numHits)
     defined?(canyon_pbEffectsAfterMove) ? canyon_pbEffectsAfterMove(user, targets, move, numHits) : super
@@ -3467,7 +3467,7 @@ end
 # ROCKY side: Long Reach accuracy drop (0.9x)
 # ---------------------------------------------------------------------------
 class Battle::Move
-  alias canyon_pbBaseAccuracy pbBaseAccuracy if method_defined?(:canyon_pbBaseAccuracy) == false && method_defined?(:pbBaseAccuracy)
+  alias canyon_pbBaseAccuracy pbBaseAccuracy unless method_defined?(:canyon_pbBaseAccuracy)
 
   def pbBaseAccuracy(user, target)
     ret = defined?(canyon_pbBaseAccuracy) ? canyon_pbBaseAccuracy(user, target) : super
@@ -3530,7 +3530,7 @@ end
 #  also handle it here so it shows in the UI multiplier pipeline)
 # ---------------------------------------------------------------------------
 class Battle::Move
-  alias canyon_pbCalcDamageMultipliers pbCalcDamageMultipliers if method_defined?(:canyon_pbCalcDamageMultipliers) == false && method_defined?(:pbCalcDamageMultipliers)
+  alias canyon_pbCalcDamageMultipliers pbCalcDamageMultipliers unless method_defined?(:canyon_pbCalcDamageMultipliers)
 
   def pbCalcDamageMultipliers(user, target, numTargets, type, baseDmg, multipliers)
     defined?(canyon_pbCalcDamageMultipliers) ? canyon_pbCalcDamageMultipliers(user, target, numTargets, type, baseDmg, multipliers) : super
@@ -3754,7 +3754,7 @@ Battle::AbilityEffects::OnBeingHit.add(:EFFECTSPORE,
 
 # Strength Sap - Heals 30% more HP
 class Battle::Move::HealUserByTargetAttackLowerTargetAttack1
-  alias forest_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias forest_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:forest_pbEffectAgainstTarget)
   
   def pbEffectAgainstTarget(user, target)
     # On Forest Field, boost healing by 30%
@@ -3767,7 +3767,7 @@ class Battle::Move::HealUserByTargetAttackLowerTargetAttack1
     return ret
   end
   
-  alias forest_pbHealAmount pbHealAmount if method_defined?(:pbHealAmount)
+  alias forest_pbHealAmount pbHealAmount unless method_defined?(:forest_pbHealAmount)
   
   def pbHealAmount(user, target)
     amt = forest_pbHealAmount(user, target) if defined?(forest_pbHealAmount)
@@ -3783,7 +3783,7 @@ end
 
 # Ingrain - Healing doubled on Forest Field
 class Battle
-  alias forest_ingrain_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias forest_ingrain_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:forest_ingrain_pbEndOfRoundPhase)
   
   def pbEndOfRoundPhase
     forest_ingrain_pbEndOfRoundPhase
@@ -3804,7 +3804,7 @@ end
 
 # Infestation - 1/6 damage instead of 1/8
 class Battle
-  alias forest_infestation_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias forest_infestation_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:forest_infestation_pbEndOfRoundPhase)
   
   def pbEndOfRoundPhase
     forest_infestation_pbEndOfRoundPhase
@@ -3830,7 +3830,7 @@ end
 
 # Nature's Madness - 75% HP damage
 class Battle::Move::LowerTargetHPToUserHP
-  alias forest_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias forest_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:forest_pbEffectAgainstTarget)
   
   def pbEffectAgainstTarget(user, target)
     if @id == :NATURESMADNESS &&
@@ -3848,7 +3848,7 @@ end
 
 # Heal Order - 66% HP
 class Battle::Move::HealUserHalfOfTotalHP
-  alias forest_pbHealAmount pbHealAmount if method_defined?(:pbHealAmount)
+  alias forest_pbHealAmount pbHealAmount unless method_defined?(:forest_pbHealAmount)
   
   def pbHealAmount(user)
     if @id == :HEALORDER &&
@@ -3864,7 +3864,7 @@ end
 
 # Forest's Curse - Additionally curses the target
 class Battle::Move::AddGrassTypeToTarget
-  alias forest_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias forest_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:forest_pbEffectAgainstTarget)
   
   def pbEffectAgainstTarget(user, target)
     ret = forest_pbEffectAgainstTarget(user, target)
@@ -3881,8 +3881,8 @@ end
 
 # Sticky Web - Effect doubled (Speed -2 instead of -1)
 class Battle::Battler
-  alias forest_pbCheckEntryHazards pbCheckEntryHazards if method_defined?(:pbCheckEntryHazards)
-  alias forest_pbOwnSide pbOwnSide if method_defined?(:pbOwnSide)
+  alias forest_pbCheckEntryHazards pbCheckEntryHazards unless method_defined?(:forest_pbCheckEntryHazards)
+  alias forest_pbOwnSide pbOwnSide unless method_defined?(:forest_pbOwnSide)
   
   def pbOwnSide
     side = forest_pbOwnSide
@@ -3900,7 +3900,7 @@ class Battle::Battler
     return side
   end
   
-  alias forest_pbLowerStatStage pbLowerStatStage if method_defined?(:pbLowerStatStage)
+  alias forest_pbLowerStatStage pbLowerStatStage unless method_defined?(:forest_pbLowerStatStage)
   
   def pbLowerStatStage(stat, increment, user, showAnim = true, ignoreContrary = false,
                        mirrorArmorSplash = 0, ignoreMirrorArmor = false)
@@ -3926,7 +3926,7 @@ DARK_CRYSTAL_CAVERN_IDS = %i[darkcrystalcavern].freeze
 
 # Dark and Ghost types get 1.5x Defense and Sp.Def
 class Battle::Move
-  alias dark_crystal_type_def_pbCalcDamageMultipliers pbCalcDamageMultipliers if method_defined?(:pbCalcDamageMultipliers)
+  alias dark_crystal_type_def_pbCalcDamageMultipliers pbCalcDamageMultipliers unless method_defined?(:dark_crystal_type_def_pbCalcDamageMultipliers)
   
   def pbCalcDamageMultipliers(user, target, numTargets, type, baseDmg, multipliers)
     respond_to?(:dark_crystal_type_def_pbCalcDamageMultipliers) ? dark_crystal_type_def_pbCalcDamageMultipliers(user, target, numTargets, type, baseDmg, multipliers) : super
@@ -3954,7 +3954,7 @@ Battle::AbilityEffects::DamageCalcFromTarget.add(:SHADOWSHIELD,
 # Synthesis/Morning Sun - Restore 25% HP on Dark Crystal Cavern
 # Hook into the healing move's recovery calculation
 class Battle::Battler
-  alias dark_crystal_healing_pbRecoverHP pbRecoverHP if method_defined?(:pbRecoverHP)
+  alias dark_crystal_healing_pbRecoverHP pbRecoverHP unless method_defined?(:dark_crystal_healing_pbRecoverHP)
   
   def pbRecoverHP(amt, anim = true)
     # Check if this is healing from Moonlight/Synthesis/Morning Sun on Dark Crystal Cavern
@@ -3988,7 +3988,7 @@ CRYSTAL_RANDOM_TYPES = [:FIRE, :WATER, :GRASS, :PSYCHIC].freeze
 # Rock-type moves randomly gain Fire/Water/Grass/Psychic typing and 1.5x boost
 # Hook into type calculation
 class Battle::Move
-  alias crystal_pbCalcType pbCalcType if method_defined?(:pbCalcType)
+  alias crystal_pbCalcType pbCalcType unless method_defined?(:crystal_pbCalcType)
   
   def pbCalcType(user)
     original_type = crystal_pbCalcType(user)
@@ -4007,7 +4007,7 @@ class Battle::Move
   end
   
   # Reset crystal type after move
-  alias crystal_pbEndOfMoveUsageEffect pbEndOfMoveUsageEffect if method_defined?(:pbEndOfMoveUsageEffect)
+  alias crystal_pbEndOfMoveUsageEffect pbEndOfMoveUsageEffect unless method_defined?(:crystal_pbEndOfMoveUsageEffect)
   
   def pbEndOfMoveUsageEffect(user, targets, numHits, switchedBattlers)
     respond_to?(:crystal_pbEndOfMoveUsageEffect) ? crystal_pbEndOfMoveUsageEffect(user, targets, numHits, switchedBattlers) : super
@@ -4030,7 +4030,7 @@ Battle::AbilityEffects::DamageCalcFromTarget.add(:PRISMARMOR,
 
 # Camouflage - Random type
 class Battle::Move::SetUserTypesBasedOnEnvironment
-  alias crystal_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias crystal_pbEffectGeneral pbEffectGeneral unless method_defined?(:crystal_pbEffectGeneral)
   
   def pbEffectGeneral(user)
     if @battle.has_field? && CRYSTAL_CAVERN_IDS.include?(@battle.current_field.id)
@@ -4059,7 +4059,7 @@ Battle::AbilityEffects::OnSwitchIn.add(:MIMICRY,
 # Terrain Pulse - Random type on Crystal Cavern
 # Function code TypeDependsOnUserMorpekoFormTerrainTypeForBattlers
 class Battle::Move
-  alias crystal_terrainpulse_pbBaseType pbBaseType if method_defined?(:pbBaseType)
+  alias crystal_terrainpulse_pbBaseType pbBaseType unless method_defined?(:crystal_terrainpulse_pbBaseType)
   
   def pbBaseType(user)
     if @id == :TERRAINPULSE && 
@@ -4074,7 +4074,7 @@ end
 
 # Secret Power - Random status (Burn/Freeze/Sleep/Confusion)
 class Battle::Move::EffectDependsOnEnvironment
-  alias crystal_pbAdditionalEffect pbAdditionalEffect if method_defined?(:pbAdditionalEffect)
+  alias crystal_pbAdditionalEffect pbAdditionalEffect unless method_defined?(:crystal_pbAdditionalEffect)
   
   def pbAdditionalEffect(user, target)
     if @battle.has_field? && CRYSTAL_CAVERN_IDS.include?(@battle.current_field.id)
@@ -4100,7 +4100,7 @@ end
 # Stealth Rock - Random type damage on Crystal Cavern
 # Hook into the entry hazard damage method
 class Battle::Battler
-  alias crystal_pbItemHPHealCheck pbItemHPHealCheck if method_defined?(:pbItemHPHealCheck)
+  alias crystal_pbItemHPHealCheck pbItemHPHealCheck unless method_defined?(:crystal_pbItemHPHealCheck)
   
   def pbItemHPHealCheck(*args)
     # This is called during switch-in after hazards
@@ -4140,7 +4140,7 @@ class Battle::Move::PoisonTarget
     respond_to?(:volcanictop_pbFailsAgainstTarget?) ? volcanictop_pbFailsAgainstTarget?(user, target, show_message) : super
   end
   
-  alias volcanictop_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias volcanictop_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:volcanictop_pbEffectAgainstTarget)
   
   def pbEffectAgainstTarget(user, target)
     if @badly_poison && 
@@ -4156,7 +4156,7 @@ end
 # Outrage/Thrash/Petal Dance - Fatigue after single turn
 # Hook into end of round to force rampage to end after just 1 turn
 class Battle
-  alias volcanictop_rampage_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias volcanictop_rampage_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:volcanictop_rampage_pbEndOfRoundPhase)
   
   def pbEndOfRoundPhase
     # Before normal EOR processing, check for rampage moves on Volcanic Top
@@ -4175,7 +4175,7 @@ end
 
 # Tailwind - Lasts 6 turns and creates Strong Winds on Volcanic Top
 class Battle::Move::StartUserSideDoubleSpeed
-  alias volcanictop_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias volcanictop_pbEffectGeneral pbEffectGeneral unless method_defined?(:volcanictop_pbEffectGeneral)
   
   def pbEffectGeneral(user)
     ret = volcanictop_pbEffectGeneral(user)
@@ -4212,7 +4212,7 @@ Battle::AbilityEffects::PriorityBracketChange.add(:GALEWINGS,
 class Battle
   attr_accessor :volcanic_eruption_triggered
   
-  alias volcanictop_eruption_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias volcanictop_eruption_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:volcanictop_eruption_pbEndOfRoundPhase)
   
   def pbEndOfRoundPhase
     volcanictop_eruption_pbEndOfRoundPhase
@@ -4319,7 +4319,7 @@ end
 
 # Hook eruption trigger into specific moves
 class Battle::Move
-  alias volcanictop_pbEffectAfterAllHits pbEffectAfterAllHits if method_defined?(:pbEffectAfterAllHits)
+  alias volcanictop_pbEffectAfterAllHits pbEffectAfterAllHits unless method_defined?(:volcanictop_pbEffectAfterAllHits)
   
   def pbEffectAfterAllHits(user, target)
     respond_to?(:volcanictop_pbEffectAfterAllHits) ? volcanictop_pbEffectAfterAllHits(user, target) : super
@@ -4343,7 +4343,7 @@ MISTY_TERRAIN_IDS = %i[misty].freeze
 # Fairy-type Sp.Def 1.5x - This is a field effect, not an ability
 # Hook into damage calculation for all Fairy-types on Misty Terrain
 class Battle::Move
-  alias misty_fairy_spdef_pbCalcDamageMultipliers pbCalcDamageMultipliers if method_defined?(:pbCalcDamageMultipliers)
+  alias misty_fairy_spdef_pbCalcDamageMultipliers pbCalcDamageMultipliers unless method_defined?(:misty_fairy_spdef_pbCalcDamageMultipliers)
   
   def pbCalcDamageMultipliers(user, target, numTargets, type, baseDmg, multipliers)
     respond_to?(:misty_fairy_spdef_pbCalcDamageMultipliers) ? misty_fairy_spdef_pbCalcDamageMultipliers(user, target, numTargets, type, baseDmg, multipliers) : super
@@ -4403,7 +4403,7 @@ Battle::AbilityEffects::DamageCalcFromTarget.add(:PASTELVEIL,
 # Soul Heart base effect already exists, we just need to add Sp.Def boost
 # Hook into the general faint handling
 class Battle::Battler
-  alias misty_soulheart_pbFaint pbFaint if method_defined?(:pbFaint)
+  alias misty_soulheart_pbFaint pbFaint unless method_defined?(:misty_soulheart_pbFaint)
   
   def pbFaint(showMessage = true)
     # Store if any battlers have Soul Heart before fainting
@@ -4432,7 +4432,7 @@ end
 # Wish - Restores 75% instead of 50% on Misty Terrain
 # Hook into battler's wish healing
 class Battle::Battler
-  alias misty_wish_pbRecoverHP pbRecoverHP if method_defined?(:pbRecoverHP)
+  alias misty_wish_pbRecoverHP pbRecoverHP unless method_defined?(:misty_wish_pbRecoverHP)
   
   def pbRecoverHP(amt, anim = true)
     # Check if this is Wish healing on Misty Terrain
@@ -4451,7 +4451,7 @@ end
 # Aqua Ring - Restores 1/8 instead of 1/16 on Misty Terrain
 # Chain onto the Grassy Terrain EOR hook
 class Battle
-  alias misty_aquaring_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias misty_aquaring_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:misty_aquaring_pbEndOfRoundPhase)
   
   def pbEndOfRoundPhase
     # Call previous in chain (could be grassy_ingrain_pbEndOfRoundPhase)
@@ -4572,7 +4572,7 @@ Battle::AbilityEffects::OnBeingHit.add(:COTTONDOWN,
 GRASSY_DRAIN_MOVES = [:ABSORB, :MEGADRAIN, :GIGADRAIN, :HORNLEECH, :DRAININGKISS, :DRAINPUNCH, :LEECHLIFE, :OBLIVIONWING, :PARABOLICCHARGE].freeze
 
 class Battle::Move
-  alias grassy_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias grassy_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:grassy_pbEffectAgainstTarget)
   
   def pbEffectAgainstTarget(user, target)
     ret = grassy_pbEffectAgainstTarget(user, target)
@@ -4615,7 +4615,7 @@ end
 
 # Hook the actual healing
 class Battle::Battler
-  alias grassy_healing_pbRecoverHP pbRecoverHP if method_defined?(:pbRecoverHP)
+  alias grassy_healing_pbRecoverHP pbRecoverHP unless method_defined?(:grassy_healing_pbRecoverHP)
   
   def pbRecoverHP(amt, anim = true)
     # Check if this is a Grassy Terrain boosted heal
@@ -4637,7 +4637,7 @@ end
 
 # Leech Seed - Recovery increased by 30% on Grassy Terrain
 class Battle
-  alias grassy_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias grassy_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:grassy_pbEndOfRoundPhase)
   
   def pbEndOfRoundPhase
     # Store if on grassy terrain for Leech Seed check
@@ -4648,7 +4648,7 @@ class Battle
 end
 
 class Battle::Battler
-  alias grassy_pbReduceHP pbReduceHP if method_defined?(:pbReduceHP)
+  alias grassy_pbReduceHP pbReduceHP unless method_defined?(:grassy_pbReduceHP)
   
   def pbReduceHP(amt, anim = false, registerDamage = true, anyAnim = true)
     # Check if this is Leech Seed damage with grassy boost
@@ -4663,7 +4663,7 @@ end
 
 # Grassy Glide - +1 priority on Grassy Terrain
 class Battle::Move::HigherPriorityInGrassyTerrain
-  alias grassy_pbPriority pbPriority if method_defined?(:pbPriority)
+  alias grassy_pbPriority pbPriority unless method_defined?(:grassy_pbPriority)
   
   def pbPriority(user)
     ret = grassy_pbPriority(user)
@@ -4686,7 +4686,7 @@ class Battle::Move::LowerTargetHPToUserHP
     return ret
   end
   
-  alias grassy_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias grassy_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:grassy_pbEffectAgainstTarget)
   
   def pbEffectAgainstTarget(user, target)
     if @grassy_terrain_boost
@@ -4702,7 +4702,7 @@ end
 # Snap Trap - Deals 1/6 HP damage per turn on Grassy Terrain
 # This is handled by PBEffects::Trapping - needs to check in EOR damage
 class Battle
-  alias grassy_trap_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias grassy_trap_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:grassy_trap_pbEndOfRoundPhase)
   
   def pbEndOfRoundPhase
     grassy_trap_pbEndOfRoundPhase
@@ -4730,7 +4730,7 @@ end
 
 # Ingrain - Heals 1/8 instead of 1/16 on Grassy Terrain
 class Battle
-  alias grassy_ingrain_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias grassy_ingrain_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:grassy_ingrain_pbEndOfRoundPhase)
   
   def pbEndOfRoundPhase
     grassy_ingrain_pbEndOfRoundPhase
@@ -4895,7 +4895,7 @@ Battle::AbilityEffects::OnBeingHit.add(:STATIC,
 # Teravolt - Electric moves deal neutral damage to Ground-types on Electric Terrain
 # Hook into damage calculation
 class Battle::Move
-  alias electric_teravolt_pbCalcDamageMultipliers pbCalcDamageMultipliers if method_defined?(:pbCalcDamageMultipliers)
+  alias electric_teravolt_pbCalcDamageMultipliers pbCalcDamageMultipliers unless method_defined?(:electric_teravolt_pbCalcDamageMultipliers)
   
   def pbCalcDamageMultipliers(user, target, numTargets, type, baseDmg, multipliers)
     respond_to?(:electric_teravolt_pbCalcDamageMultipliers) ? electric_teravolt_pbCalcDamageMultipliers(user, target, numTargets, type, baseDmg, multipliers) : super
@@ -4930,7 +4930,7 @@ Battle::AbilityEffects::DamageCalcFromTarget.add(:TRANSISTOR,
 # Ground-type moves can hit airborne Pokemon on cave field
 # Hook into type effectiveness calculation
 class Battle::Move
-  alias cave_ground_pbCalcTypeMod pbCalcTypeMod if method_defined?(:pbCalcTypeMod)
+  alias cave_ground_pbCalcTypeMod pbCalcTypeMod unless method_defined?(:cave_ground_pbCalcTypeMod)
   
   def pbCalcTypeMod(moveType, user, target)
     # Call original first
@@ -4972,7 +4972,7 @@ end
 #===============================================================================
 
 class Battle
-  alias weather_field_change_pbEOREndWeather pbEOREndWeather if method_defined?(:pbEOREndWeather)
+  alias weather_field_change_pbEOREndWeather pbEOREndWeather unless method_defined?(:weather_field_change_pbEOREndWeather)
   
   def pbEOREndWeather(priority)
     # Call original first
@@ -5016,7 +5016,7 @@ end
 
 # Hook into Battle#pbStartWeather to extend weather duration based on field
 class Battle
-  alias field_weather_duration_pbStartWeather pbStartWeather if method_defined?(:pbStartWeather)
+  alias field_weather_duration_pbStartWeather pbStartWeather unless method_defined?(:field_weather_duration_pbStartWeather)
   
   def pbStartWeather(user, newWeather, fixedDuration = false, showAnimation = true)
     # Call original method first
@@ -5185,7 +5185,7 @@ Battle::AbilityEffects::AfterMoveUseFromTarget.add(:WATERCOMPACTION,
 # Focus Energy's function class sets FocusEnergy to 2.
 # We intercept pbEffectGeneral (where the effect is applied) and boost to 3.
 class Battle::Move::RaiseUserCriticalHitRate2
-  alias beach_focus_energy_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias beach_focus_energy_pbEffectGeneral pbEffectGeneral unless method_defined?(:beach_focus_energy_pbEffectGeneral)
 
   def pbEffectGeneral(user)
     respond_to?(:beach_focus_energy_pbEffectGeneral) ? beach_focus_energy_pbEffectGeneral(user) : super
@@ -5200,7 +5200,7 @@ end
 # Shore Up's function code is "HealUserDependingOnSandstorm".
 # We override pbEffectGeneral to fully restore HP on beach field.
 class Battle::Move::HealUserDependingOnSandstorm
-  alias beach_shore_up_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias beach_shore_up_pbEffectGeneral pbEffectGeneral unless method_defined?(:beach_shore_up_pbEffectGeneral)
 
   def pbEffectGeneral(user)
     return beach_shore_up_pbEffectGeneral(user) unless @battle.has_field? && BEACH_FIELD_IDS.include?(@battle.current_field.id)
@@ -5213,7 +5213,7 @@ end
 
 # PSYCH UP - Additionally cures user's status
 class Battle::Move::UserCopyTargetStatStages
-  alias beach_psych_up_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias beach_psych_up_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:beach_psych_up_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     respond_to?(:beach_psych_up_pbEffectAgainstTarget) ? beach_psych_up_pbEffectAgainstTarget(user, target) : super
@@ -5236,7 +5236,7 @@ end
 # PBEffects::TrappingMove stores which move caused the trap.
 # We hook into pbEndOfRoundPhase to apply the accuracy drop after the trap damage.
 class Battle
-  alias beach_sand_tomb_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias beach_sand_tomb_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:beach_sand_tomb_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     beach_sand_tomb_pbEndOfRoundPhase
@@ -5342,7 +5342,7 @@ VOLCANIC_FIELD_IDS = %i[volcanic volcanictop superheated infernal].freeze
 # Burn Up sets PBEffects::BurnUp = true when it removes the Fire type.
 # We restore type1/type2 from species data at EOR and clear the flag.
 class Battle
-  alias volcanic_move_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias volcanic_move_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:volcanic_move_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     volcanic_move_pbEndOfRoundPhase
@@ -5372,7 +5372,7 @@ end
 # After the final hit the game calls pbConfuse on the user.
 # We intercept it, check if the active move is a thrashing move, and suppress.
 class Battle::Battler
-  alias volcanic_pbConfuse pbConfuse if method_defined?(:pbConfuse)
+  alias volcanic_pbConfuse pbConfuse unless method_defined?(:volcanic_pbConfuse)
 
   def pbConfuse(msg = nil)
     if @battle.has_field? && VOLCANIC_FIELD_IDS.include?(@battle.current_field.id)
@@ -5395,7 +5395,7 @@ end
 # Status effect damage multipliers (configured via field data)
 # Hook into end of round to modify status damage
 Battle::Scene.class_eval do
-  alias field_status_pbDamageAnimation pbDamageAnimation if method_defined?(:pbDamageAnimation)
+  alias field_status_pbDamageAnimation pbDamageAnimation unless method_defined?(:field_status_pbDamageAnimation)
   
   def pbDamageAnimation(battler, effectiveness = 0)
     # Store if this is status damage being animated
@@ -5405,7 +5405,7 @@ Battle::Scene.class_eval do
 end
 
 class Battle::Battler
-  alias field_status_pbReduceHP pbReduceHP if method_defined?(:pbReduceHP)
+  alias field_status_pbReduceHP pbReduceHP unless method_defined?(:field_status_pbReduceHP)
   
   def pbReduceHP(amt, anim = false, registerDamage = true, anyAnim = true)
     # Check if this is status damage and field modifies it
@@ -5471,7 +5471,7 @@ Battle::AbilityEffects::AccuracyCalcFromTarget.add(:SNOWCLOAK,
 # Ice-types get 1.5x Defense when Hail/Snow is active
 # Hook into damage calculation for the target
 class Battle::Move
-  alias icy_ice_defense_pbCalcDamageMultipliers pbCalcDamageMultipliers if method_defined?(:pbCalcDamageMultipliers)
+  alias icy_ice_defense_pbCalcDamageMultipliers pbCalcDamageMultipliers unless method_defined?(:icy_ice_defense_pbCalcDamageMultipliers)
   
   def pbCalcDamageMultipliers(user, target, numTargets, type, baseDmg, multipliers)
     respond_to?(:icy_ice_defense_pbCalcDamageMultipliers) ? icy_ice_defense_pbCalcDamageMultipliers(user, target, numTargets, type, baseDmg, multipliers) : super
@@ -5535,7 +5535,7 @@ class Battle
 end
 
 class Battle::Move
-  alias icy_spike_pbEffectAfterAllHits pbEffectAfterAllHits if method_defined?(:pbEffectAfterAllHits)
+  alias icy_spike_pbEffectAfterAllHits pbEffectAfterAllHits unless method_defined?(:icy_spike_pbEffectAfterAllHits)
   
   def pbEffectAfterAllHits(user, target)
     respond_to?(:icy_spike_pbEffectAfterAllHits) ? icy_spike_pbEffectAfterAllHits(user, target) : super
@@ -5908,7 +5908,7 @@ Battle::AbilityEffects::OnSwitchIn.add(:BERSERK_DRAGONSDEN,
 # Shed Skin - Activates every turn EOR on Dragon's Den
 # Additionally recovers 25% HP and gives Speed+SpAtk/-Def/-SpDef when curing a status
 class Battle
-  alias dragonsden_shedskin_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias dragonsden_shedskin_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:dragonsden_shedskin_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     dragonsden_shedskin_pbEndOfRoundPhase
@@ -5956,7 +5956,7 @@ Battle::AbilityEffects::DamageCalcFromTarget.add(:MULTISCALE,
 
 # Magma Storm - Deals 1/6 max HP per turn instead of 1/8 on Dragon's Den
 class Battle
-  alias dragonsden_magmastorm_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias dragonsden_magmastorm_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:dragonsden_magmastorm_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     dragonsden_magmastorm_pbEndOfRoundPhase
@@ -6003,7 +6003,7 @@ end
 # Hail/Shadow Sky - Double passive damage on Frozen Dimensional
 # Hook into Battle's EOR weather damage. Normal hail = 1/16; on FZD = 1/8
 class Battle
-  alias frozendim_hail_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias frozendim_hail_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:frozendim_hail_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     frozendim_hail_pbEndOfRoundPhase
@@ -6047,7 +6047,7 @@ DIMENSIONAL_FAMILY_IDS = %i[dimensional frozendimension].freeze
 
 # Rage - Becomes 60bp Dark-type move that always raises Attack on Dimensional family
 class Battle::Move::RaiseUserAtkUsesThenSleep
-  alias frozendim_rage_pbBaseType pbBaseType if method_defined?(:pbBaseType)
+  alias frozendim_rage_pbBaseType pbBaseType unless method_defined?(:frozendim_rage_pbBaseType)
 
   def pbBaseType(user)
     if @id == :RAGE &&
@@ -6058,7 +6058,7 @@ class Battle::Move::RaiseUserAtkUsesThenSleep
     respond_to?(:frozendim_rage_pbBaseType) ? frozendim_rage_pbBaseType(user) : super
   end
 
-  alias frozendim_rage_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias frozendim_rage_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:frozendim_rage_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     if @id == :RAGE &&
@@ -6074,7 +6074,7 @@ end
 
 # Dragon Rage - Deals 140 flat damage on Dimensional family
 class Battle::Move::FixedDamage40
-  alias frozendim_dragonrage_pbFixedDamage pbFixedDamage if method_defined?(:pbFixedDamage)
+  alias frozendim_dragonrage_pbFixedDamage pbFixedDamage unless method_defined?(:frozendim_dragonrage_pbFixedDamage)
 
   def pbFixedDamage(user, target)
     if @id == :DRAGONRAGE &&
@@ -6088,7 +6088,7 @@ end
 
 # Power Trip - Gains 40bp per stage instead of 20bp on Frozen Dimensional
 class Battle::Move::PowerBasedOnUserPositiveStatStages
-  alias frozendim_powertrip_pbBaseDamage pbBaseDamage if method_defined?(:pbBaseDamage)
+  alias frozendim_powertrip_pbBaseDamage pbBaseDamage unless method_defined?(:frozendim_powertrip_pbBaseDamage)
 
   def pbBaseDamage(baseDmg, user, target)
     if @id == :POWERTRIP &&
@@ -6104,7 +6104,7 @@ end
 
 # Snarl - Lowers SpAtk by 2 stages instead of 1 on Frozen Dimensional
 class Battle::Move::LowerTargetAtkSpAtk1
-  alias frozendim_snarl_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias frozendim_snarl_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:frozendim_snarl_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     if @id == :SNARL &&
@@ -6119,7 +6119,7 @@ end
 
 # Parting Shot - Additionally lowers Speed on Frozen Dimensional
 class Battle::Move
-  alias frozendim_partingshot_pbEffectsAfterMove pbEffectsAfterMove if method_defined?(:pbEffectsAfterMove)
+  alias frozendim_partingshot_pbEffectsAfterMove pbEffectsAfterMove unless method_defined?(:frozendim_partingshot_pbEffectsAfterMove)
 
   def pbEffectsAfterMove(user, targets, move, numHits)
     frozendim_partingshot_pbEffectsAfterMove(user, targets, move, numHits) if respond_to?(:frozendim_partingshot_pbEffectsAfterMove)
@@ -6158,7 +6158,7 @@ end
 
 # Tailwind - Creates Strong Winds on Sky Field (in addition to Volcanic Top)
 class Battle::Move::StartUserSideDoubleSpeed
-  alias sky_tailwind_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias sky_tailwind_pbEffectGeneral pbEffectGeneral unless method_defined?(:sky_tailwind_pbEffectGeneral)
 
   def pbEffectGeneral(user)
     respond_to?(:sky_tailwind_pbEffectGeneral) ? sky_tailwind_pbEffectGeneral(user) : super
@@ -6172,7 +6172,7 @@ end
 
 # Bonemerang - Super effective vs Flying on Sky Field
 class Battle::Move
-  alias sky_bonemerang_pbCalcTypeModSingle pbCalcTypeModSingle if method_defined?(:pbCalcTypeModSingle)
+  alias sky_bonemerang_pbCalcTypeModSingle pbCalcTypeModSingle unless method_defined?(:sky_bonemerang_pbCalcTypeModSingle)
 
   def pbCalcTypeModSingle(moveType, defType, user, target)
     ret = sky_bonemerang_pbCalcTypeModSingle(moveType, defType, user, target)
@@ -6190,7 +6190,7 @@ end
 
 # Mirror Move - Boosts Atk, SpAtk, and Speed by 1 when used successfully
 class Battle::Move::UseLastMoveUsedByTarget
-  alias sky_mirrormove_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias sky_mirrormove_pbEffectGeneral pbEffectGeneral unless method_defined?(:sky_mirrormove_pbEffectGeneral)
 
   def pbEffectGeneral(user)
     respond_to?(:sky_mirrormove_pbEffectGeneral) ? sky_mirrormove_pbEffectGeneral(user) : super
@@ -6206,7 +6206,7 @@ end
 # Flying Press normally calculates effectiveness for both Fighting and Flying and multiplies.
 # On Sky Field, the Flying component is always neutral regardless of target types.
 class Battle::Move::FightingAndFlyingType
-  alias sky_flyingpress_pbCalcTypeModSingle pbCalcTypeModSingle if method_defined?(:pbCalcTypeModSingle)
+  alias sky_flyingpress_pbCalcTypeModSingle pbCalcTypeModSingle unless method_defined?(:sky_flyingpress_pbCalcTypeModSingle)
 
   def pbCalcTypeModSingle(moveType, defType, user, target)
     if @battle.has_field? && SKY_FIELD_IDS.include?(@battle.current_field.id)
@@ -6251,7 +6251,7 @@ Battle::AbilityEffects::OnSwitchIn.add(:STEALTHROCK_INFERNAL,
 
 # Fire moves - Super effective vs Ghost types on Infernal Field
 class Battle::Move
-  alias infernal_pbCalcTypeModSingle pbCalcTypeModSingle if method_defined?(:pbCalcTypeModSingle)
+  alias infernal_pbCalcTypeModSingle pbCalcTypeModSingle unless method_defined?(:infernal_pbCalcTypeModSingle)
 
   def pbCalcTypeModSingle(moveType, defType, user, target)
     ret = infernal_pbCalcTypeModSingle(moveType, defType, user, target)
@@ -6270,7 +6270,7 @@ end
 
 # Hex - Always doubles power (acts as if target always has a status condition)
 class Battle::Move::DoublePowerIfTargetStatusProblem
-  alias infernal_hex_pbBaseDamage pbBaseDamage if method_defined?(:pbBaseDamage)
+  alias infernal_hex_pbBaseDamage pbBaseDamage unless method_defined?(:infernal_hex_pbBaseDamage)
 
   def pbBaseDamage(baseDmg, user, target)
     if @id == :HEX &&
@@ -6343,7 +6343,7 @@ Battle::AbilityEffects::OnSwitchIn.add(:ICEFACE_INFERNAL,
 
 # Steam Engine - Raises Speed by +1 at end of every turn on Infernal Field
 class Battle
-  alias infernal_steamengine_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias infernal_steamengine_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:infernal_steamengine_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     infernal_steamengine_pbEndOfRoundPhase
@@ -6362,7 +6362,7 @@ end
 # Bad Dreams - Doubled damage and traps sleeping targets on Infernal Field
 # Normal Bad Dreams: 1/8 HP per turn. Infernal: adds extra 1/8 and traps.
 class Battle
-  alias infernal_baddreams_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias infernal_baddreams_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:infernal_baddreams_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     infernal_baddreams_pbEndOfRoundPhase
@@ -6393,7 +6393,7 @@ end
 
 # Torment - Deals 1/8th HP passive damage to tormented targets each turn
 class Battle
-  alias infernal_torment_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias infernal_torment_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:infernal_torment_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     infernal_torment_pbEndOfRoundPhase
@@ -6424,7 +6424,7 @@ FAIRY_TALE_IDS = %i[fairytale].freeze
 
 # Steel super-effective vs Dragon on Fairy Tale Field
 class Battle::Move
-  alias fairytale_pbCalcTypeModSingle pbCalcTypeModSingle if method_defined?(:pbCalcTypeModSingle)
+  alias fairytale_pbCalcTypeModSingle pbCalcTypeModSingle unless method_defined?(:fairytale_pbCalcTypeModSingle)
 
   def pbCalcTypeModSingle(moveType, defType, user, target)
     ret = fairytale_pbCalcTypeModSingle(moveType, defType, user, target)
@@ -6442,7 +6442,7 @@ end
 
 # Cut, Slash, Sacred Sword, Secret Sword become Steel-type on Fairy Tale Field
 class Battle::Move
-  alias fairytale_steel_pbBaseType pbBaseType if method_defined?(:pbBaseType)
+  alias fairytale_steel_pbBaseType pbBaseType unless method_defined?(:fairytale_steel_pbBaseType)
 
   def pbBaseType(user)
     if @battle.has_field? && FAIRY_TALE_IDS.include?(@battle.current_field.id)
@@ -6458,7 +6458,7 @@ end
 
 # Floral Healing - 100% HP restoration (base 50%, Grassy 75%, Fairy Tale 100%)
 class Battle::Battler
-  alias fairytale_floralhealing_pbRecoverHP pbRecoverHP if method_defined?(:pbRecoverHP)
+  alias fairytale_floralhealing_pbRecoverHP pbRecoverHP unless method_defined?(:fairytale_floralhealing_pbRecoverHP)
 
   def pbRecoverHP(amt, anim = true)
     if @battle.has_field? && FAIRY_TALE_IDS.include?(@battle.current_field.id)
@@ -6473,7 +6473,7 @@ end
 
 # Wish - 75% HP restoration on Fairy Tale Field (same amount as Misty, different field)
 class Battle::Battler
-  alias fairytale_wish_pbRecoverHP pbRecoverHP if method_defined?(:pbRecoverHP)
+  alias fairytale_wish_pbRecoverHP pbRecoverHP unless method_defined?(:fairytale_wish_pbRecoverHP)
 
   def pbRecoverHP(amt, anim = true)
     if (@battle.positions[@index].effects[PBEffects::Wish] || 0) > 0 &&
@@ -6487,7 +6487,7 @@ end
 
 # Healing Wish - Additionally boosts recipient's Attack and Special Attack
 class Battle
-  alias fairytale_healingwish_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias fairytale_healingwish_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:fairytale_healingwish_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     fairytale_healingwish_pbEndOfRoundPhase
@@ -6507,7 +6507,7 @@ end
 
 # Noble Roar - Lowers Attack AND Special Attack by 2 stages (amplified) on Fairy Tale Field
 class Battle::Move::LowerTargetAtkSpAtk1
-  alias fairytale_nobleroar_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias fairytale_nobleroar_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:fairytale_nobleroar_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     if @id == :NOBLEROAR &&
@@ -6523,7 +6523,7 @@ end
 
 # Crafty Shield - Additionally boosts user's Defense and Special Defense +1
 class Battle::Move::ProtectUserSideFromStatusMoves
-  alias fairytale_craftyshield_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias fairytale_craftyshield_pbEffectGeneral pbEffectGeneral unless method_defined?(:fairytale_craftyshield_pbEffectGeneral)
 
   def pbEffectGeneral(user)
     respond_to?(:fairytale_craftyshield_pbEffectGeneral) ? fairytale_craftyshield_pbEffectGeneral(user) : super
@@ -6540,7 +6540,7 @@ end
 
 # Flower Shield - Additionally boosts all Fairy-type Pokemon's Special Defense +1 on Fairy Tale Field
 class Battle::Move::RaiseGrassTypePokemonDefense1
-  alias fairytale_flowershield_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias fairytale_flowershield_pbEffectGeneral pbEffectGeneral unless method_defined?(:fairytale_flowershield_pbEffectGeneral)
 
   def pbEffectGeneral(user)
     respond_to?(:fairytale_flowershield_pbEffectGeneral) ? fairytale_flowershield_pbEffectGeneral(user) : super
@@ -6559,7 +6559,7 @@ end
 # to the protection check in Battle::Move#pbMoveFailedPrevented? — documented as needing
 # manual override of pbDamagingMove? check when KingsShield is active on Fairy Tale Field.
 class Battle::Move
-  alias fairytale_kingsshield_pbEffectsOnMakingHit pbEffectsOnMakingHit if method_defined?(:pbEffectsOnMakingHit)
+  alias fairytale_kingsshield_pbEffectsOnMakingHit pbEffectsOnMakingHit unless method_defined?(:fairytale_kingsshield_pbEffectsOnMakingHit)
 
   def pbEffectsOnMakingHit(user, target)
     fairytale_kingsshield_pbEffectsOnMakingHit(user, target) if respond_to?(:fairytale_kingsshield_pbEffectsOnMakingHit)
@@ -6577,7 +6577,7 @@ end
 
 # Sweet Kiss and Draining Kiss - Cure sleep on the target
 class Battle::Move
-  alias fairytale_kiss_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias fairytale_kiss_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:fairytale_kiss_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     respond_to?(:fairytale_kiss_pbEffectAgainstTarget) ? fairytale_kiss_pbEffectAgainstTarget(user, target) : super
@@ -6592,7 +6592,7 @@ end
 
 # Miracle Eye - Additionally boosts Special Attack by 1 stage
 class Battle::Move::RemoveTargetTypeImmunity
-  alias fairytale_miracleeye_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias fairytale_miracleeye_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:fairytale_miracleeye_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     respond_to?(:fairytale_miracleeye_pbEffectAgainstTarget) ? fairytale_miracleeye_pbEffectAgainstTarget(user, target) : super
@@ -6607,7 +6607,7 @@ end
 # Forest's Curse - Additionally applies Curse to the target on Fairy Tale Field
 # (forest_pbEffectAgainstTarget already exists from Forest Field — chain correctly)
 class Battle::Move::AddGrassTypeToTarget
-  alias fairytale_forestscurse_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias fairytale_forestscurse_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:fairytale_forestscurse_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     respond_to?(:fairytale_forestscurse_pbEffectAgainstTarget) ? fairytale_forestscurse_pbEffectAgainstTarget(user, target) : super
@@ -6622,7 +6622,7 @@ end
 
 # Strange Steam - Always confuses (no roll required)
 class Battle::Move::ConfuseTarget
-  alias fairytale_strangesteam_pbAdditionalEffect pbAdditionalEffect if method_defined?(:pbAdditionalEffect)
+  alias fairytale_strangesteam_pbAdditionalEffect pbAdditionalEffect unless method_defined?(:fairytale_strangesteam_pbAdditionalEffect)
 
   def pbAdditionalEffect(user, target)
     if @id == :STRANGESTEAM &&
@@ -6645,7 +6645,7 @@ end
 
 # Soul Heart - Additionally boosts Special Defense when any Pokémon faints
 class Battle::Battler
-  alias fairytale_soulheart_pbFaint pbFaint if method_defined?(:pbFaint)
+  alias fairytale_soulheart_pbFaint pbFaint unless method_defined?(:fairytale_soulheart_pbFaint)
 
   def pbFaint(showMessage = true)
     soulheart_battlers = []
@@ -6705,7 +6705,7 @@ Battle::AbilityEffects::DamageCalcFromUser.add(:STEELYSPIRIT_FAIRYTALE,
 
 # Fairy Aura - Cannot miss on Fairy Tale Field
 class Battle::Move
-  alias fairytale_fairyaura_pbAccuracyCheck pbAccuracyCheck if method_defined?(:pbAccuracyCheck)
+  alias fairytale_fairyaura_pbAccuracyCheck pbAccuracyCheck unless method_defined?(:fairytale_fairyaura_pbAccuracyCheck)
 
   def pbAccuracyCheck(user, target)
     if @battle.has_field? && FAIRY_TALE_IDS.include?(@battle.current_field.id)
@@ -6802,7 +6802,7 @@ INVERSE_FIELD_IDS = %i[inverse].freeze
 #──────────────────────────────────────────────────────────────────────────────
 
 class Battle::Move
-  alias inverse_pbCalcTypeModSingle pbCalcTypeModSingle if method_defined?(:pbCalcTypeModSingle)
+  alias inverse_pbCalcTypeModSingle pbCalcTypeModSingle unless method_defined?(:inverse_pbCalcTypeModSingle)
 
   def pbCalcTypeModSingle(moveType, defType, user, target)
     ret = inverse_pbCalcTypeModSingle(moveType, defType, user, target)
@@ -6827,7 +6827,7 @@ end
 #──────────────────────────────────────────────────────────────────────────────
 
 class Battle::Move::InvertTargetStatStages
-  alias inverse_topsyturvy_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias inverse_topsyturvy_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:inverse_topsyturvy_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     respond_to?(:inverse_topsyturvy_pbEffectAgainstTarget) ? inverse_topsyturvy_pbEffectAgainstTarget(user, target) : super
@@ -6854,7 +6854,7 @@ end
 
 # EOR: decrement the inverse field duration and revert when it expires
 class Battle
-  alias inverse_timer_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias inverse_timer_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:inverse_timer_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     inverse_timer_pbEndOfRoundPhase
@@ -6883,7 +6883,7 @@ end
 #──────────────────────────────────────────────────────────────────────────────
 
 class Battle::Move::EffectDependsOnEnvironment
-  alias inverse_secretpower_pbAdditionalEffect pbAdditionalEffect if method_defined?(:pbAdditionalEffect)
+  alias inverse_secretpower_pbAdditionalEffect pbAdditionalEffect unless method_defined?(:inverse_secretpower_pbAdditionalEffect)
 
   def pbAdditionalEffect(user, target)
     if @battle.has_field? && INVERSE_FIELD_IDS.include?(@battle.current_field.id)
@@ -6937,7 +6937,7 @@ end
 
 # Override pbBaseType so normalized battlers' moves are always Normal-type
 class Battle::Move
-  alias inverse_normalize_pbBaseType pbBaseType if method_defined?(:pbBaseType)
+  alias inverse_normalize_pbBaseType pbBaseType unless method_defined?(:inverse_normalize_pbBaseType)
 
   def pbBaseType(user)
     type = inverse_normalize_pbBaseType(user)
@@ -6951,7 +6951,7 @@ end
 
 # Clear the normalized flag when the battler leaves the field or the field ends
 class Battle::Battler
-  alias inverse_pbFaint pbFaint if method_defined?(:pbFaint)
+  alias inverse_pbFaint pbFaint unless method_defined?(:inverse_pbFaint)
 
   def pbFaint(showMessage = true)
     @inverse_normalized = false
@@ -6989,7 +6989,7 @@ end
 # Normal Shadow Sky: 1/16 HP per turn. Dimensional: 1/8 HP per turn.
 #──────────────────────────────────────────────────────────────────────────────
 class Battle
-  alias dimensional_shadowsky_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias dimensional_shadowsky_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:dimensional_shadowsky_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     dimensional_shadowsky_pbEndOfRoundPhase
@@ -7012,7 +7012,7 @@ end
 # MOVE C: Sleep → Damage Over Time (1/16 HP per turn)
 #──────────────────────────────────────────────────────────────────────────────
 class Battle
-  alias dimensional_sleep_dot_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias dimensional_sleep_dot_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:dimensional_sleep_dot_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     dimensional_sleep_dot_pbEndOfRoundPhase
@@ -7035,7 +7035,7 @@ end
 # MOVE F: Dig / Dive / Fly / Bounce — instantly KO user while semi-invulnerable
 #──────────────────────────────────────────────────────────────────────────────
 class Battle
-  alias dimensional_twoturn_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias dimensional_twoturn_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:dimensional_twoturn_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     dimensional_twoturn_pbEndOfRoundPhase
@@ -7059,7 +7059,7 @@ end
 # MOVE G: Quash — +1 priority on Dimensional Field
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move::MakeTargetMoveLastInTurn
-  alias dimensional_quash_pbPriority pbPriority if method_defined?(:pbPriority)
+  alias dimensional_quash_pbPriority pbPriority unless method_defined?(:dimensional_quash_pbPriority)
 
   def pbPriority(user)
     ret = dimensional_quash_pbPriority(user)
@@ -7111,7 +7111,7 @@ end
 # Gravity duration override (Gravity uses a different effect key)
 if PBEffects.const_defined?(:Gravity)
   class Battle::Move::StartGravity
-    alias dimensional_gravity_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+    alias dimensional_gravity_pbEffectGeneral pbEffectGeneral unless method_defined?(:dimensional_gravity_pbEffectGeneral)
 
     def pbEffectGeneral(user)
       respond_to?(:dimensional_gravity_pbEffectGeneral) ? dimensional_gravity_pbEffectGeneral(user) : super
@@ -7149,7 +7149,7 @@ end
 # MOVE J: Heal Block — additionally deals 1/16 HP per turn to blocked target
 #──────────────────────────────────────────────────────────────────────────────
 class Battle
-  alias dimensional_healblock_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias dimensional_healblock_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:dimensional_healblock_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     dimensional_healblock_pbEndOfRoundPhase
@@ -7306,7 +7306,7 @@ DIMENSIONAL_DOWNLOAD_TYPES = %i[
 class Battle
   attr_accessor :dimensional_download_type_index
 
-  alias dimensional_download_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias dimensional_download_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:dimensional_download_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     dimensional_download_pbEndOfRoundPhase
@@ -7453,7 +7453,7 @@ ALL_TYPES_POOL = %i[
 # the base game already doubles their chance.
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move
-  alias rainbow_pbAdditionalEffect pbAdditionalEffect if method_defined?(:pbAdditionalEffect)
+  alias rainbow_pbAdditionalEffect pbAdditionalEffect unless method_defined?(:rainbow_pbAdditionalEffect)
 
   def pbAdditionalEffect(user, target)
     doubled = false
@@ -7477,7 +7477,7 @@ end
 # PASSIVE B: Sleeping Pokemon recover 1/16 HP per turn
 #──────────────────────────────────────────────────────────────────────────────
 class Battle
-  alias rainbow_sleep_heal_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias rainbow_sleep_heal_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:rainbow_sleep_heal_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     rainbow_sleep_heal_pbEndOfRoundPhase
@@ -7502,7 +7502,7 @@ end
 # Implemented as a pbBaseType override: returns a random type for special Normal moves.
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move
-  alias rainbow_randtype_pbBaseType pbBaseType if method_defined?(:pbBaseType)
+  alias rainbow_randtype_pbBaseType pbBaseType unless method_defined?(:rainbow_randtype_pbBaseType)
 
   def pbBaseType(user)
     type = rainbow_randtype_pbBaseType(user)
@@ -7518,7 +7518,7 @@ end
 # Applies one of: Paralyze, Sleep, Burn, Freeze, Poison (randomly).
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move::EffectDependsOnEnvironment
-  alias rainbow_secretpower_pbAdditionalEffect pbAdditionalEffect if method_defined?(:pbAdditionalEffect)
+  alias rainbow_secretpower_pbAdditionalEffect pbAdditionalEffect unless method_defined?(:rainbow_secretpower_pbAdditionalEffect)
 
   def pbAdditionalEffect(user, target)
     if @battle.has_field? && RAINBOW_FIELD_IDS.include?(@battle.current_field.id)
@@ -7545,7 +7545,7 @@ end
 # SonicBoom normally deals 20 flat damage (FixedDamage20 class).
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move::FixedDamage20
-  alias rainbow_sonicboom_pbFixedDamage pbFixedDamage if method_defined?(:pbFixedDamage)
+  alias rainbow_sonicboom_pbFixedDamage pbFixedDamage unless method_defined?(:rainbow_sonicboom_pbFixedDamage)
 
   def pbFixedDamage(user, target)
     if @id == :SONICBOOM && @battle.has_field? && RAINBOW_FIELD_IDS.include?(@battle.current_field.id)
@@ -7560,7 +7560,7 @@ end
 # Chain from the fairytale wish hook.
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Battler
-  alias rainbow_healing_pbRecoverHP pbRecoverHP if method_defined?(:pbRecoverHP)
+  alias rainbow_healing_pbRecoverHP pbRecoverHP unless method_defined?(:rainbow_healing_pbRecoverHP)
 
   def pbRecoverHP(amt, anim = true)
     if @battle.respond_to?(:choices) && @battle.has_field? && RAINBOW_FIELD_IDS.include?(@battle.current_field.id)
@@ -7619,7 +7619,7 @@ end
 
 # Bad Dreams — no damage to sleeping targets on Rainbow Field
 class Battle
-  alias rainbow_baddreams_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias rainbow_baddreams_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:rainbow_baddreams_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     rainbow_baddreams_pbEndOfRoundPhase
@@ -7648,7 +7648,7 @@ end
 # Chain from fairytale_soulheart_pbFaint
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Battler
-  alias rainbow_soulheart_pbFaint pbFaint if method_defined?(:pbFaint)
+  alias rainbow_soulheart_pbFaint pbFaint unless method_defined?(:rainbow_soulheart_pbFaint)
 
   def pbFaint(showMessage = true)
     soulheart_battlers = []
@@ -7712,7 +7712,7 @@ Battle::AbilityEffects::DamageCalcFromTarget.add(:MARVELSCALE_RAINBOW,
 RAINBOW_CLOUD_NINE_STATS = %i[ATTACK DEFENSE SPECIAL_ATTACK SPECIAL_DEFENSE SPEED].freeze
 
 class Battle
-  alias rainbow_cloudnine_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias rainbow_cloudnine_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:rainbow_cloudnine_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     rainbow_cloudnine_pbEndOfRoundPhase
@@ -7737,7 +7737,7 @@ end
 # ABILITY N: WonderSkin — evades ALL status moves (not just 50% of the time)
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move
-  alias rainbow_wonderskin_pbAccuracyCheck pbAccuracyCheck if method_defined?(:pbAccuracyCheck)
+  alias rainbow_wonderskin_pbAccuracyCheck pbAccuracyCheck unless method_defined?(:rainbow_wonderskin_pbAccuracyCheck)
 
   def pbAccuracyCheck(user, target)
     if @battle.has_field? && RAINBOW_FIELD_IDS.include?(@battle.current_field.id)
@@ -7788,7 +7788,7 @@ STARLIGHT_ARENA_IDS = %i[starlightarena].freeze
 # Practical approach: override pbCalcDamageMultipliers to cancel field type boosts.
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move
-  alias starlight_suppress_pbCalcDamageMultipliers pbCalcDamageMultipliers if method_defined?(:pbCalcDamageMultipliers)
+  alias starlight_suppress_pbCalcDamageMultipliers pbCalcDamageMultipliers unless method_defined?(:starlight_suppress_pbCalcDamageMultipliers)
 
   def pbCalcDamageMultipliers(user, target, numTargets, type, baseDmg, mults)
     # Suppress field boosts under non-Strong-Winds weather
@@ -7822,7 +7822,7 @@ end
 # type move on Starlight Arena.
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move
-  alias starlight_dark_fairy_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias starlight_dark_fairy_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:starlight_dark_fairy_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     respond_to?(:starlight_dark_fairy_pbEffectAgainstTarget) ? starlight_dark_fairy_pbEffectAgainstTarget(user, target) : super
@@ -7870,7 +7870,7 @@ end
 # The noCharging key in fieldtxt handles the charge turn; we also skip recharge.
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move
-  alias starlight_meteorassault_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias starlight_meteorassault_pbEffectGeneral pbEffectGeneral unless method_defined?(:starlight_meteorassault_pbEffectGeneral)
 
   def pbEffectGeneral(user)
     respond_to?(:starlight_meteorassault_pbEffectGeneral) ? starlight_meteorassault_pbEffectGeneral(user) : super
@@ -7893,7 +7893,7 @@ end
 # Doom Desire lands. Due to Essentials' future-sight architecture, we track it
 # with a side effect flag.
 class Battle
-  alias starlight_doomdesire_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias starlight_doomdesire_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:starlight_doomdesire_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     starlight_doomdesire_pbEndOfRoundPhase
@@ -7920,7 +7920,7 @@ end
 # MOVE: Wish restores 75% HP; Moonlight restores 75% HP
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Battler
-  alias starlight_healing_pbRecoverHP pbRecoverHP if method_defined?(:pbRecoverHP)
+  alias starlight_healing_pbRecoverHP pbRecoverHP unless method_defined?(:starlight_healing_pbRecoverHP)
 
   def pbRecoverHP(amt, anim = true)
     if @battle.respond_to?(:choices) && @battle.has_field? && STARLIGHT_ARENA_IDS.include?(@battle.current_field.id)
@@ -7945,7 +7945,7 @@ end
 # Lunar Blessing (HealAlliesQuarter class) — intercept heal amount
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move::HealAlliesQuarterOfTotalHP
-  alias starlight_lunarblessing_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias starlight_lunarblessing_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:starlight_lunarblessing_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     if @id == :LUNARBLESSING && @battle.has_field? && STARLIGHT_ARENA_IDS.include?(@battle.current_field.id)
@@ -7969,7 +7969,7 @@ end
 # Chain from the existing FairyTale HealingWish EOR hook pattern.
 #──────────────────────────────────────────────────────────────────────────────
 class Battle
-  alias starlight_healingwish_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias starlight_healingwish_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:starlight_healingwish_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     starlight_healingwish_pbEndOfRoundPhase
@@ -8141,7 +8141,7 @@ NEW_WORLD_IDS = %i[newworld].freeze
 # PASSIVE A: Grounded Pokemon's Speed reduced by 25%
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Battler
-  alias newworld_pbSpeed pbSpeed if method_defined?(:pbSpeed)
+  alias newworld_pbSpeed pbSpeed unless method_defined?(:newworld_pbSpeed)
 
   def pbSpeed
     speed = newworld_pbSpeed
@@ -8163,7 +8163,7 @@ end
 # block any field transitions while New World is active.
 #──────────────────────────────────────────────────────────────────────────────
 class Battle
-  alias newworld_field_change_pbChangeField pbChangeField if method_defined?(:pbChangeField)
+  alias newworld_field_change_pbChangeField pbChangeField unless method_defined?(:newworld_field_change_pbChangeField)
 
   def pbChangeField(new_field_id, *args)
     if has_field? && NEW_WORLD_IDS.include?(current_field.id)
@@ -8211,7 +8211,7 @@ end
 # HP equalization after the swap.
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move::SwapUserTargetSomeStats
-  alias newworld_heartswap_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias newworld_heartswap_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:newworld_heartswap_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     respond_to?(:newworld_heartswap_pbEffectAgainstTarget) ? newworld_heartswap_pbEffectAgainstTarget(user, target) : super
@@ -8234,7 +8234,7 @@ end
 # HealingWish/LunarDance effect flags.
 #──────────────────────────────────────────────────────────────────────────────
 class Battle
-  alias newworld_lunardance_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias newworld_lunardance_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:newworld_lunardance_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     newworld_lunardance_pbEndOfRoundPhase
@@ -8258,7 +8258,7 @@ end
 # MOVE: Lunar Blessing recovers 33% HP (from 25%)
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move::HealAlliesQuarterOfTotalHP
-  alias newworld_lunarblessing_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias newworld_lunarblessing_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:newworld_lunarblessing_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     if @id == :LUNARBLESSING && @battle.has_field? && NEW_WORLD_IDS.include?(@battle.current_field.id)
@@ -8279,7 +8279,7 @@ end
 # MOVE: Moonlight restores 75% HP
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Battler
-  alias newworld_healing_pbRecoverHP pbRecoverHP if method_defined?(:pbRecoverHP)
+  alias newworld_healing_pbRecoverHP pbRecoverHP unless method_defined?(:newworld_healing_pbRecoverHP)
 
   def pbRecoverHP(amt, anim = true)
     if @battle.respond_to?(:choices) && @battle.has_field? && NEW_WORLD_IDS.include?(@battle.current_field.id)
@@ -8296,7 +8296,7 @@ end
 # MOVE: Nature's Madness deals 75% HP damage
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move::LowerTargetHPToUserHP
-  alias newworld_naturesmadness_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias newworld_naturesmadness_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:newworld_naturesmadness_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     if @id == :NATURESMADNESS && @battle.has_field? && NEW_WORLD_IDS.include?(@battle.current_field.id)
@@ -8313,7 +8313,7 @@ end
 # Same pattern as Starlight Arena — track targets, deal Fire bonus at EOR.
 #──────────────────────────────────────────────────────────────────────────────
 class Battle
-  alias newworld_doomdesire_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias newworld_doomdesire_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:newworld_doomdesire_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     newworld_doomdesire_pbEndOfRoundPhase
@@ -8340,7 +8340,7 @@ end
 # Random -1 to one of the five battle stats.
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move::EffectDependsOnEnvironment
-  alias newworld_secretpower_pbAdditionalEffect pbAdditionalEffect if method_defined?(:pbAdditionalEffect)
+  alias newworld_secretpower_pbAdditionalEffect pbAdditionalEffect unless method_defined?(:newworld_secretpower_pbAdditionalEffect)
 
   def pbAdditionalEffect(user, target)
     if @battle.has_field? && NEW_WORLD_IDS.include?(@battle.current_field.id)
@@ -8393,7 +8393,7 @@ NEW_WORLD_ALL_TYPES = %i[
 ].freeze
 
 class Battle
-  alias newworld_multitype_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias newworld_multitype_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:newworld_multitype_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     newworld_multitype_pbEndOfRoundPhase
@@ -8415,7 +8415,7 @@ end
 # New World: Mimicry picks a random type each turn instead of terrain type.
 #──────────────────────────────────────────────────────────────────────────────
 class Battle
-  alias newworld_mimicry_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias newworld_mimicry_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:newworld_mimicry_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     newworld_mimicry_pbEndOfRoundPhase
@@ -8493,7 +8493,7 @@ FACTORY_FIELD_IDS = %i[factory].freeze
 # On Factory Field: raises by 2 AND also boosts the user's SpAtk+SpDef by 1.
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move::RaiseTargetAtkSpAtk1
-  alias factory_gearup_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias factory_gearup_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:factory_gearup_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     if @id == :GEARUP && @battle.has_field? && FACTORY_FIELD_IDS.include?(@battle.current_field.id)
@@ -8630,7 +8630,7 @@ Battle::AbilityEffects::DamageCalcFromUser.add(:TECHNICIAN_FACTORY,
 # On Factory Field, reduce to 25%.
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move::RecoilUserHalf
-  alias factory_steelbeam_pbRecoilDamage pbRecoilDamage if method_defined?(:pbRecoilDamage)
+  alias factory_steelbeam_pbRecoilDamage pbRecoilDamage unless method_defined?(:factory_steelbeam_pbRecoilDamage)
 
   def pbRecoilDamage(user, target)
     if @id == :STEELBEAM && @battle.has_field? && FACTORY_FIELD_IDS.include?(@battle.current_field.id)
@@ -8651,7 +8651,7 @@ end
 MAGNET_RISE_EXTENDED_IDS = %i[factory shortcircuit].freeze
 
 class Battle::Move::StartUserMagnetRise
-  alias factory_magnetrise_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias factory_magnetrise_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:factory_magnetrise_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     respond_to?(:factory_magnetrise_pbEffectAgainstTarget) ? factory_magnetrise_pbEffectAgainstTarget(user, target) : super
@@ -8694,7 +8694,7 @@ SHORTCIRCUIT_ELEC_MULTS = [0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0].freeze
 # The counter is managed by get_field_roll in 009 (Battle#get_field_roll).
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move
-  alias shortcircuit_electric_pbCalcDamageMultipliers pbCalcDamageMultipliers if method_defined?(:pbCalcDamageMultipliers)
+  alias shortcircuit_electric_pbCalcDamageMultipliers pbCalcDamageMultipliers unless method_defined?(:shortcircuit_electric_pbCalcDamageMultipliers)
 
   def pbCalcDamageMultipliers(user, target, numTargets, type, baseDmg, mults)
     respond_to?(:shortcircuit_electric_pbCalcDamageMultipliers) ? shortcircuit_electric_pbCalcDamageMultipliers(user, target, numTargets, type, baseDmg, mults) : super
@@ -8717,7 +8717,7 @@ end
 # Here we handle the instant KO and dual-type damage.
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move::RecoilUserHalf
-  alias shortcircuit_steelbeam_pbEffectAfterAllHits pbEffectAfterAllHits if method_defined?(:pbEffectAfterAllHits)
+  alias shortcircuit_steelbeam_pbEffectAfterAllHits pbEffectAfterAllHits unless method_defined?(:shortcircuit_steelbeam_pbEffectAfterAllHits)
 
   def pbEffectAfterAllHits(user, target)
     if respond_to?(:shortcircuit_steelbeam_pbEffectAfterAllHits, true)
@@ -8733,7 +8733,7 @@ class Battle::Move::RecoilUserHalf
     @battle.pbDisplay(_INTL("{1} was destroyed by the overloaded circuit!", user.pbThis))
   end
 
-  alias shortcircuit_steelbeam_pbBaseType pbBaseType if method_defined?(:pbBaseType)
+  alias shortcircuit_steelbeam_pbBaseType pbBaseType unless method_defined?(:shortcircuit_steelbeam_pbBaseType)
 
   def pbBaseType(user)
     base_type = if respond_to?(:shortcircuit_steelbeam_pbBaseType, true)
@@ -8751,7 +8751,7 @@ end
 
 # Additional Electric bonus hit for Steel Beam on Short Circuit
 class Battle::Move::RecoilUserHalf
-  alias shortcircuit_steelbeam_dual_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias shortcircuit_steelbeam_dual_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:shortcircuit_steelbeam_dual_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     if respond_to?(:shortcircuit_steelbeam_dual_pbEffectAgainstTarget, true)
@@ -8859,7 +8859,7 @@ Battle::AbilityEffects::DamageCalcFromUser.add(:GALVANIZE_SHORTCIRCUIT,
 # Apply as a type-change via pbBaseType hook.
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move
-  alias shortcircuit_steelworker_pbCalcType pbCalcType if method_defined?(:pbCalcType)
+  alias shortcircuit_steelworker_pbCalcType pbCalcType unless method_defined?(:shortcircuit_steelworker_pbCalcType)
 
   def pbCalcType(user)
     calc_type = shortcircuit_steelworker_pbCalcType(user)
@@ -8981,7 +8981,7 @@ SWAMP_RANDOM_DROP_STATS = %i[ATTACK DEFENSE SPECIAL_ATTACK SPECIAL_DEFENSE SPEED
 # Trapping: Pokémon under Trapping effect lose -2 Speed instead of -1
 #──────────────────────────────────────────────────────────────────────────────
 class Battle
-  alias swamp_speed_drop_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias swamp_speed_drop_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:swamp_speed_drop_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     swamp_speed_drop_pbEndOfRoundPhase
@@ -9005,7 +9005,7 @@ end
 # Under Trapping: double damage (1/8)
 #──────────────────────────────────────────────────────────────────────────────
 class Battle
-  alias swamp_sleep_damage_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias swamp_sleep_damage_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:swamp_sleep_damage_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     swamp_sleep_damage_pbEndOfRoundPhase
@@ -9029,7 +9029,7 @@ end
 # Leech Seed, Snap Trap) lose a random stat -1
 #──────────────────────────────────────────────────────────────────────────────
 class Battle
-  alias swamp_trap_statdrop_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias swamp_trap_statdrop_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:swamp_trap_statdrop_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     swamp_trap_statdrop_pbEndOfRoundPhase
@@ -9051,7 +9051,7 @@ end
 # The base game heals 1/16; we add an extra 1/16 for a total of 1/8.
 #──────────────────────────────────────────────────────────────────────────────
 class Battle
-  alias swamp_aquaring_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias swamp_aquaring_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:swamp_aquaring_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     swamp_aquaring_pbEndOfRoundPhase
@@ -9072,7 +9072,7 @@ end
 # → lower one of the target's stats randomly by -1
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move
-  alias swamp_random_statdrop_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias swamp_random_statdrop_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:swamp_random_statdrop_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     respond_to?(:swamp_random_statdrop_pbEffectAgainstTarget) ? swamp_random_statdrop_pbEffectAgainstTarget(user, target) : super
@@ -9201,7 +9201,7 @@ WASTELAND_STATUS_IMMUNE_TYPES = %i[POISON STEEL].freeze
 # After effects fire, the hazard is consumed.
 #──────────────────────────────────────────────────────────────────────────────
 class Battle
-  alias wasteland_hazards_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias wasteland_hazards_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:wasteland_hazards_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     wasteland_hazards_pbEndOfRoundPhase
@@ -9294,7 +9294,7 @@ end
 # MOVE: Dire Claw status chance 100%
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move
-  alias wasteland_direclaw_pbAdditionalEffect pbAdditionalEffect if method_defined?(:pbAdditionalEffect)
+  alias wasteland_direclaw_pbAdditionalEffect pbAdditionalEffect unless method_defined?(:wasteland_direclaw_pbAdditionalEffect)
 
   def pbAdditionalEffect(user, target)
     if @id == :DIRECLAW && @battle.has_field? && WASTELAND_IDS.include?(@battle.current_field.id)
@@ -9317,7 +9317,7 @@ end
 # MOVE: Secret Power may inflict a random status (Burn/Paralysis/Freeze/Poison)
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move::EffectDependsOnEnvironment
-  alias wasteland_secretpower_pbAdditionalEffect pbAdditionalEffect if method_defined?(:pbAdditionalEffect)
+  alias wasteland_secretpower_pbAdditionalEffect pbAdditionalEffect unless method_defined?(:wasteland_secretpower_pbAdditionalEffect)
 
   def pbAdditionalEffect(user, target)
     if @battle.has_field? && WASTELAND_IDS.include?(@battle.current_field.id)
@@ -9344,7 +9344,7 @@ end
 # Hook into the EOR Leech Seed processing.
 #──────────────────────────────────────────────────────────────────────────────
 class Battle
-  alias wasteland_leechseed_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias wasteland_leechseed_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:wasteland_leechseed_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     wasteland_leechseed_pbEndOfRoundPhase
@@ -9371,7 +9371,7 @@ end
 # Swallow's base class is HealUserDependingOnStockpile.
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move::HealUserDependingOnStockpile
-  alias wasteland_swallow_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias wasteland_swallow_pbEffectGeneral pbEffectGeneral unless method_defined?(:wasteland_swallow_pbEffectGeneral)
 
   def pbEffectGeneral(user)
     if @battle.has_field? && WASTELAND_IDS.include?(@battle.current_field.id)
@@ -9406,7 +9406,7 @@ end
 # Acid Downpour: additionally applies random status
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move
-  alias wasteland_sludge_pbAdditionalEffect pbAdditionalEffect if method_defined?(:pbAdditionalEffect)
+  alias wasteland_sludge_pbAdditionalEffect pbAdditionalEffect unless method_defined?(:wasteland_sludge_pbAdditionalEffect)
 
   def pbAdditionalEffect(user, target)
     respond_to?(:wasteland_sludge_pbAdditionalEffect) ? wasteland_sludge_pbAdditionalEffect(user, target) : super
@@ -9542,7 +9542,7 @@ Battle::AbilityEffects::OnBeingHit.add(:GOOEY_WASTELAND,
 # damaging move, regardless of typing
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move
-  alias wasteland_corrosion_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias wasteland_corrosion_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:wasteland_corrosion_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     respond_to?(:wasteland_corrosion_pbEffectAgainstTarget) ? wasteland_corrosion_pbEffectAgainstTarget(user, target) : super
@@ -9618,7 +9618,7 @@ DEEP_EARTH_WEIGHT_MOVES_DEF = %i[GRASSKNOT LOWKICK].freeze
 # We also block any move that would cancel Gravity.
 #──────────────────────────────────────────────────────────────────────────────
 class Battle
-  alias deepearth_gravity_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias deepearth_gravity_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:deepearth_gravity_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     deepearth_gravity_pbEndOfRoundPhase
@@ -9652,7 +9652,7 @@ end
 # MOVE D: Core Enforcer has -1 priority
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move
-  alias deepearth_priority_pbCalcDamageMultipliers pbCalcDamageMultipliers if method_defined?(:pbCalcDamageMultipliers)
+  alias deepearth_priority_pbCalcDamageMultipliers pbCalcDamageMultipliers unless method_defined?(:deepearth_priority_pbCalcDamageMultipliers)
 
   def pbCalcDamageMultipliers(user, target, numTargets, type, baseDmg, mults)
     respond_to?(:deepearth_priority_pbCalcDamageMultipliers) ? deepearth_priority_pbCalcDamageMultipliers(user, target, numTargets, type, baseDmg, mults) : super
@@ -9668,7 +9668,7 @@ class Battle::Move
 end
 
 class Battle::Move::CoreEnforcer
-  alias deepearth_coreenforcer_pbPriority pbPriority if method_defined?(:pbPriority)
+  alias deepearth_coreenforcer_pbPriority pbPriority unless method_defined?(:deepearth_coreenforcer_pbPriority)
 
   def pbPriority(user)
     base = respond_to?(:deepearth_coreenforcer_pbPriority) ?
@@ -9682,7 +9682,7 @@ end
 # MOVE E: Gyro Ball and Crush Grip always at maximum power
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move
-  alias deepearth_maxpower_pbBaseDamage pbBaseDamage if method_defined?(:pbBaseDamage)
+  alias deepearth_maxpower_pbBaseDamage pbBaseDamage unless method_defined?(:deepearth_maxpower_pbBaseDamage)
 
   def pbBaseDamage(basedmg, user, target)
     ret = respond_to?(:deepearth_maxpower_pbBaseDamage) ?
@@ -9704,7 +9704,7 @@ end
 # MOVE F: Psywave deals 1x–1.5x user level damage (instead of 0.5x–1.5x)
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move::FixedDamageUserLevel
-  alias deepearth_psywave_pbFixedDamage pbFixedDamage if method_defined?(:pbFixedDamage)
+  alias deepearth_psywave_pbFixedDamage pbFixedDamage unless method_defined?(:deepearth_psywave_pbFixedDamage)
 
   def pbFixedDamage(user, target)
     return deepearth_psywave_pbFixedDamage(user, target) unless
@@ -9721,7 +9721,7 @@ end
 # MOVE G: Seismic Toss deals 1.5x user level damage
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move::FixedDamageUserLevel
-  alias deepearth_seismictoss_pbFixedDamage pbFixedDamage if method_defined?(:pbFixedDamage)
+  alias deepearth_seismictoss_pbFixedDamage pbFixedDamage unless method_defined?(:deepearth_seismictoss_pbFixedDamage)
 
   def pbFixedDamage(user, target)
     return deepearth_seismictoss_pbFixedDamage(user, target) unless
@@ -9736,7 +9736,7 @@ end
 # MOVE H: Gravity targets all opposing Pokémon, dealing 50% current HP
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move::StartGravity
-  alias deepearth_gravity_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias deepearth_gravity_pbEffectGeneral pbEffectGeneral unless method_defined?(:deepearth_gravity_pbEffectGeneral)
 
   def pbEffectGeneral(user)
     respond_to?(:deepearth_gravity_pbEffectGeneral) ? deepearth_gravity_pbEffectGeneral(user) : super
@@ -9756,7 +9756,7 @@ end
 # MOVE I: Topsy-Turvy reverses gravity, dealing weight-based Ground damage to all
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move::InvertStatStages
-  alias deepearth_topsyturvy_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias deepearth_topsyturvy_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:deepearth_topsyturvy_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     respond_to?(:deepearth_topsyturvy_pbEffectAgainstTarget) ? deepearth_topsyturvy_pbEffectAgainstTarget(user, target) : super
@@ -9783,7 +9783,7 @@ end
 # MOVE J: Magnet Rise grants +2 Speed instead of levitation on Deep Earth
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move::StartUserMagnetRise
-  alias deepearth_magnetrise_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias deepearth_magnetrise_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:deepearth_magnetrise_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     if @battle.has_field? && DEEP_EARTH_IDS.include?(@battle.current_field.id)
@@ -9802,7 +9802,7 @@ end
 # Hook into pbWeight to double it conditionally.
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Battler
-  alias deepearth_pbWeight pbWeight if method_defined?(:pbWeight)
+  alias deepearth_pbWeight pbWeight unless method_defined?(:deepearth_pbWeight)
 
   def pbWeight
     base = respond_to?(:deepearth_pbWeight) ? deepearth_pbWeight : (@pokemon.weight rescue 50)
@@ -9822,7 +9822,7 @@ end
 
 # For defender weight (Grass Knot / Low Kick), hook into the move's target weight fetch
 class Battle::Move
-  alias deepearth_defweight_pbCalcDamageMultipliers pbCalcDamageMultipliers if method_defined?(:pbCalcDamageMultipliers)
+  alias deepearth_defweight_pbCalcDamageMultipliers pbCalcDamageMultipliers unless method_defined?(:deepearth_defweight_pbCalcDamageMultipliers)
 
   def pbCalcDamageMultipliers(user, target, numTargets, type, baseDmg, mults)
     if @battle.has_field? && DEEP_EARTH_IDS.include?(@battle.current_field.id) &&
@@ -9838,7 +9838,7 @@ class Battle::Move
 end
 
 class Battle::Battler
-  alias deepearth_defweight_pbWeight pbWeight if method_defined?(:pbWeight)
+  alias deepearth_defweight_pbWeight pbWeight unless method_defined?(:deepearth_defweight_pbWeight)
 
   def pbWeight
     base = respond_to?(:deepearth_defweight_pbWeight) ? deepearth_defweight_pbWeight : (@pokemon.weight rescue 50)
@@ -9892,7 +9892,7 @@ Battle::AbilityEffects::DamageCalcFromUser.add(:POWERSPOT_DEEPEARTH,
 #──────────────────────────────────────────────────────────────────────────────
 # ABILITY Q: Pressure — additional PP usage on Deep Earth Field
 class Battle::Battler
-  alias deepearth_pressure_pbReducePP pbReducePP if method_defined?(:pbReducePP)
+  alias deepearth_pressure_pbReducePP pbReducePP unless method_defined?(:deepearth_pressure_pbReducePP)
 
   def pbReducePP(move)
     result = respond_to?(:deepearth_pressure_pbReducePP, true) ?
@@ -10045,7 +10045,7 @@ GLITCH_DRIVE_TYPES = {
 
 # A: Fairy moves → Normal type
 class Battle::Move
-  alias glitch_fairy_pbCalcType pbCalcType if method_defined?(:pbCalcType)
+  alias glitch_fairy_pbCalcType pbCalcType unless method_defined?(:glitch_fairy_pbCalcType)
 
   def pbCalcType(user)
     t = glitch_fairy_pbCalcType(user)
@@ -10058,7 +10058,7 @@ end
 
 # B–G: Type chart patches via effectiveness override in damage multipliers
 class Battle::Move
-  alias glitch_typechart_pbCalcDamageMultipliers pbCalcDamageMultipliers if method_defined?(:pbCalcDamageMultipliers)
+  alias glitch_typechart_pbCalcDamageMultipliers pbCalcDamageMultipliers unless method_defined?(:glitch_typechart_pbCalcDamageMultipliers)
 
   def pbCalcDamageMultipliers(user, target, numTargets, type, baseDmg, mults)
     respond_to?(:glitch_typechart_pbCalcDamageMultipliers) ? glitch_typechart_pbCalcDamageMultipliers(user, target, numTargets, type, baseDmg, mults) : super
@@ -10138,7 +10138,7 @@ end
 # using a flag set before calc and cleared after.
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move
-  alias glitch_split_pbCalcDamageMultipliers pbCalcDamageMultipliers if method_defined?(:pbCalcDamageMultipliers)
+  alias glitch_split_pbCalcDamageMultipliers pbCalcDamageMultipliers unless method_defined?(:glitch_split_pbCalcDamageMultipliers)
 
   def pbCalcDamageMultipliers(user, target, numTargets, type, baseDmg, mults)
     if @battle.has_field? && GLITCH_FIELD_IDS.include?(@battle.current_field.id) &&
@@ -10154,7 +10154,7 @@ end
 
 class Battle::Battler
   # Override SpAtk to return max(SpAtk, SpDef) when Glitch flag is set
-  alias glitch_pbSpAtk pbSpAtk if method_defined?(:pbSpAtk)
+  alias glitch_pbSpAtk pbSpAtk unless method_defined?(:glitch_pbSpAtk)
 
   def pbSpAtk
     base = glitch_pbSpAtk
@@ -10163,7 +10163,7 @@ class Battle::Battler
   end
 
   # Override SpDef (target) to return max(SpAtk, SpDef) when Glitch flag is set
-  alias glitch_pbSpDef pbSpDef if method_defined?(:pbSpDef)
+  alias glitch_pbSpDef pbSpDef unless method_defined?(:glitch_pbSpDef)
 
   def pbSpDef
     if method_defined?(:glitch_pbSpDef)
@@ -10180,7 +10180,7 @@ end
 # PASSIVE I: Critical hit rate +1 stage if attacker is faster than target
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move
-  alias glitch_crit_pbCritialHit pbCritialHit if method_defined?(:pbCritialHit)
+  alias glitch_crit_pbCritialHit pbCritialHit unless method_defined?(:glitch_crit_pbCritialHit)
 
   def pbCritialHit(user, target)
     base = respond_to?(:glitch_crit_pbCritialHit) ?
@@ -10196,7 +10196,7 @@ end
 # Hook into pbEffectAfterAllHits on recharge moves.
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move
-  alias glitch_recharge_pbEffectAfterAllHits pbEffectAfterAllHits if method_defined?(:pbEffectAfterAllHits)
+  alias glitch_recharge_pbEffectAfterAllHits pbEffectAfterAllHits unless method_defined?(:glitch_recharge_pbEffectAfterAllHits)
 
   def pbEffectAfterAllHits(user, target)
     respond_to?(:glitch_recharge_pbEffectAfterAllHits) ? glitch_recharge_pbEffectAfterAllHits(user, target) : super
@@ -10212,7 +10212,7 @@ end
 # PASSIVE K: Rest heals when called by Sleep Talk; resets sleep counter to 2
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move::HealUserAndNegateStatus
-  alias glitch_rest_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias glitch_rest_pbEffectGeneral pbEffectGeneral unless method_defined?(:glitch_rest_pbEffectGeneral)
 
   def pbEffectGeneral(user)
     sleep_talk_active = begin
@@ -10246,7 +10246,7 @@ class Battle::Move::FixedDamageUserLevel  # reuse a broad hook via Battler
 end
 
 class Battle::Battler
-  alias glitch_rage_pbTurnBegin pbTurnBegin if method_defined?(:pbTurnBegin)
+  alias glitch_rage_pbTurnBegin pbTurnBegin unless method_defined?(:glitch_rage_pbTurnBegin)
 
   def pbTurnBegin
     # Skip the Rage move-lock clear on Glitch Field
@@ -10273,7 +10273,7 @@ Battle::AbilityEffects::OnBeingHit.add(:GLITCH_RAGE_LOCK,
 # PASSIVE M: Metronome never chooses moves with < 70 base power
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move::UseRandomMove
-  alias glitch_metronome_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias glitch_metronome_pbEffectGeneral pbEffectGeneral unless method_defined?(:glitch_metronome_pbEffectGeneral)
 
   def pbEffectGeneral(user)
     if @id == :METRONOME &&
@@ -10321,7 +10321,7 @@ end
 # On Glitch Field, force ??? regardless of memory.
 #──────────────────────────────────────────────────────────────────────────────
 class Battle
-  alias glitch_rkssystem_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias glitch_rkssystem_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:glitch_rkssystem_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     glitch_rkssystem_pbEndOfRoundPhase
@@ -10441,7 +10441,7 @@ end
 # KO'd opponent's highest stat
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Battler
-  alias colosseum_ko_pbFaint pbFaint if method_defined?(:pbFaint)
+  alias colosseum_ko_pbFaint pbFaint unless method_defined?(:colosseum_ko_pbFaint)
 
   def pbFaint(showMessage = true)
     # Identify who delivered the final blow
@@ -10475,7 +10475,7 @@ end
 # (instead of forcing a switch)
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move::ForceSwitchOut
-  alias colosseum_roar_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias colosseum_roar_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:colosseum_roar_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     if @id == :ROAR &&
@@ -10511,7 +10511,7 @@ end
 # Both still apply confusion as normal
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move::RaiseTargetAtkConfuseTarget
-  alias colosseum_swagger_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias colosseum_swagger_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:colosseum_swagger_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     if @battle.has_field? && COLOSSEUM_IDS.include?(@battle.current_field.id)
@@ -10525,7 +10525,7 @@ class Battle::Move::RaiseTargetAtkConfuseTarget
 end
 
 class Battle::Move::RaiseTargetSpAtkConfuseTarget
-  alias colosseum_flatter_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias colosseum_flatter_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:colosseum_flatter_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     if @battle.has_field? && COLOSSEUM_IDS.include?(@battle.current_field.id)
@@ -10542,7 +10542,7 @@ end
 # MOVE G: Spiky Shield damage doubled (1/8 → 1/4 HP)
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move
-  alias colosseum_spikyshield_pbCalcDamageMultipliers pbCalcDamageMultipliers if method_defined?(:pbCalcDamageMultipliers)
+  alias colosseum_spikyshield_pbCalcDamageMultipliers pbCalcDamageMultipliers unless method_defined?(:colosseum_spikyshield_pbCalcDamageMultipliers)
 
   def pbCalcDamageMultipliers(user, target, numTargets, type, baseDmg, mults)
     respond_to?(:colosseum_spikyshield_pbCalcDamageMultipliers) ? colosseum_spikyshield_pbCalcDamageMultipliers(user, target, numTargets, type, baseDmg, mults) : super
@@ -10567,7 +10567,7 @@ Battle::AbilityEffects::OnBeingHit.add(:SPIKYSHIELD_COLOSSEUM,
 # MOVE H: Secret Power raises user's Attack +1
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move::EffectDependsOnEnvironment
-  alias colosseum_secretpower_pbAdditionalEffect pbAdditionalEffect if method_defined?(:pbAdditionalEffect)
+  alias colosseum_secretpower_pbAdditionalEffect pbAdditionalEffect unless method_defined?(:colosseum_secretpower_pbAdditionalEffect)
 
   def pbAdditionalEffect(user, target)
     if @battle.has_field? && COLOSSEUM_IDS.include?(@battle.current_field.id)
@@ -10582,7 +10582,7 @@ end
 # MOVE I: No Retreat — all stat boosts doubled (+2 → +4 each)
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move::RaiseUserMainStats
-  alias colosseum_noretreat_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias colosseum_noretreat_pbEffectGeneral pbEffectGeneral unless method_defined?(:colosseum_noretreat_pbEffectGeneral)
 
   def pbEffectGeneral(user)
     if @id == :NORETREAT &&
@@ -10632,7 +10632,7 @@ Battle::AbilityEffects::DamageCalcFromUser.add(:SKILLLINK_COLOSSEUM,
 # Implemented via pbLowerStatStage alias since AfterStatLower handler doesn't exist
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Battler
-  alias colosseum_defcomp_pbLowerStatStage pbLowerStatStage if method_defined?(:pbLowerStatStage)
+  alias colosseum_defcomp_pbLowerStatStage pbLowerStatStage unless method_defined?(:colosseum_defcomp_pbLowerStatStage)
 
   def pbLowerStatStage(stat, amount, user, showAnim = true, ignoreContrary = false,
                        ignoreMirrorArmor = false)
@@ -10719,7 +10719,7 @@ Battle::AbilityEffects::OnSwitchIn.add(:COLOSSEUM_SWITCH_BOOSTS,
 # (Burn, Poison, weather, Leech Seed, etc.)
 #──────────────────────────────────────────────────────────────────────────────
 class Battle
-  alias colosseum_wonderguard_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias colosseum_wonderguard_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:colosseum_wonderguard_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     colosseum_wonderguard_pbEndOfRoundPhase
@@ -10738,7 +10738,7 @@ end
 
 # Intercept HP reduction for Wonder Guard holders during EOR
 class Battle::Battler
-  alias colosseum_wonderguard_pbReduceHP pbReduceHP if method_defined?(:pbReduceHP)
+  alias colosseum_wonderguard_pbReduceHP pbReduceHP unless method_defined?(:colosseum_wonderguard_pbReduceHP)
 
   def pbReduceHP(amt, anim = true, registerDamage = true, anyAnim = true)
     not_using_move = begin
@@ -10932,7 +10932,7 @@ Battle::AbilityEffects::DamageCalcFromTarget.add(:CHESS_PAWN_SURVIVE,
 # PIECE EFFECT — King: increased priority on all moves (+1)
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move
-  alias chess_king_pbPriority pbPriority if method_defined?(:pbPriority)
+  alias chess_king_pbPriority pbPriority unless method_defined?(:chess_king_pbPriority)
 
   def pbPriority(user = nil)
     base = chess_king_pbPriority(user)
@@ -10965,7 +10965,7 @@ Battle::AbilityEffects::DamageCalcFromUser.add(:CHESS_KNIGHT_DMG,
 # x0.5 vs Adaptability/Synchronize/Anticipation/Telepathy
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move
-  alias chess_attack_pbCalcDamageMultipliers pbCalcDamageMultipliers if method_defined?(:pbCalcDamageMultipliers)
+  alias chess_attack_pbCalcDamageMultipliers pbCalcDamageMultipliers unless method_defined?(:chess_attack_pbCalcDamageMultipliers)
 
   def pbCalcDamageMultipliers(user, target, numTargets, type, baseDmg, mults)
     respond_to?(:chess_attack_pbCalcDamageMultipliers) ? chess_attack_pbCalcDamageMultipliers(user, target, numTargets, type, baseDmg, mults) : super
@@ -11003,7 +11003,7 @@ end
 
 # Rock-type bonus damage after Chess Attacks land
 class Battle::Move
-  alias chess_rock_bonus_pbEffectAfterAllHits pbEffectAfterAllHits if method_defined?(:pbEffectAfterAllHits)
+  alias chess_rock_bonus_pbEffectAfterAllHits pbEffectAfterAllHits unless method_defined?(:chess_rock_bonus_pbEffectAfterAllHits)
 
   def pbEffectAfterAllHits(user, target)
     respond_to?(:chess_rock_bonus_pbEffectAfterAllHits) ? chess_rock_bonus_pbEffectAfterAllHits(user, target) : super
@@ -11041,7 +11041,7 @@ Battle::AbilityEffects::OnBeingHit.add(:CHESS_SET_TANTRUM_FLAG,
 )
 
 class Battle::Move
-  alias chess_tantrum_pbEffectAfterAllHits pbEffectAfterAllHits if method_defined?(:pbEffectAfterAllHits)
+  alias chess_tantrum_pbEffectAfterAllHits pbEffectAfterAllHits unless method_defined?(:chess_tantrum_pbEffectAfterAllHits)
 
   def pbEffectAfterAllHits(user, target)
     respond_to?(:chess_tantrum_pbEffectAfterAllHits) ? chess_tantrum_pbEffectAfterAllHits(user, target) : super
@@ -11090,7 +11090,7 @@ Battle::AbilityEffects::OnBeingHit.add(:KINGSSHIELD_CHESSBOARD,
 # MOVE: Trick Room lasts 8 turns
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move::StartTrickRoom
-  alias chess_trickroom_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias chess_trickroom_pbEffectGeneral pbEffectGeneral unless method_defined?(:chess_trickroom_pbEffectGeneral)
 
   def pbEffectGeneral(user)
     respond_to?(:chess_trickroom_pbEffectGeneral) ? chess_trickroom_pbEffectGeneral(user) : super
@@ -11103,7 +11103,7 @@ end
 # MOVE: False Surrender applies Taunt
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move
-  alias chess_falsesurrender_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias chess_falsesurrender_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:chess_falsesurrender_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     respond_to?(:chess_falsesurrender_pbEffectAgainstTarget) ? chess_falsesurrender_pbEffectAgainstTarget(user, target) : super
@@ -11121,7 +11121,7 @@ end
 # MOVE: No Retreat — +2 Atk/SpAtk/Speed, -1 Def/SpDef
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move::RaiseUserMainStats
-  alias chess_noretreat_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias chess_noretreat_pbEffectGeneral pbEffectGeneral unless method_defined?(:chess_noretreat_pbEffectGeneral)
 
   def pbEffectGeneral(user)
     if @id == :NORETREAT &&
@@ -11301,7 +11301,7 @@ Battle::AbilityEffects::CriticalCalcFromUser.add(:MIRROR_ARENA_CRIT,
 #            (unless behind Protect or has Shell/Battle Armor)
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Battler
-  alias mirror_pbEffectsAfterMove pbEffectsAfterMove if method_defined?(:pbEffectsAfterMove)
+  alias mirror_pbEffectsAfterMove pbEffectsAfterMove unless method_defined?(:mirror_pbEffectsAfterMove)
 
   def pbEffectsAfterMove(user, targets, move, numHits)
     respond_to?(:mirror_pbEffectsAfterMove) ? mirror_pbEffectsAfterMove(user, targets, move, numHits) : super
@@ -11359,7 +11359,7 @@ Battle::AbilityEffects::DamageCalcFromUser.add(:MIRROR_BEAM_REFLECT,
 # MOVE: Shatter moves → Neutral Field + 1/2 HP to all active Pokémon
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move
-  alias mirror_shatter_pbEffectAfterAllHits pbEffectAfterAllHits if method_defined?(:pbEffectAfterAllHits)
+  alias mirror_shatter_pbEffectAfterAllHits pbEffectAfterAllHits unless method_defined?(:mirror_shatter_pbEffectAfterAllHits)
 
   def pbEffectAfterAllHits(user, target)
     respond_to?(:mirror_shatter_pbEffectAfterAllHits) ? mirror_shatter_pbEffectAfterAllHits(user, target) : super
@@ -11383,7 +11383,7 @@ end
 # MOVE: Mirror Shot — always lowers Accuracy (override to force lower)
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move
-  alias mirror_mirrorshot_pbAdditionalEffect pbAdditionalEffect if method_defined?(:pbAdditionalEffect)
+  alias mirror_mirrorshot_pbAdditionalEffect pbAdditionalEffect unless method_defined?(:mirror_mirrorshot_pbAdditionalEffect)
 
   def pbAdditionalEffect(user, target)
     if @id == :MIRRORSHOT &&
@@ -11402,7 +11402,7 @@ end
 # MOVE: Mirror Move success → +1 Accuracy, +1 Atk, +1 SpAtk for user
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move
-  alias mirror_coat_move_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias mirror_coat_move_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:mirror_coat_move_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     respond_to?(:mirror_coat_move_pbEffectAgainstTarget) ? mirror_coat_move_pbEffectAgainstTarget(user, target) : super
@@ -11425,7 +11425,7 @@ end
 # MOVE: Light Screen / Reflect last 8 turns and boost user's Evasion
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move::StartReflect
-  alias mirror_reflect_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias mirror_reflect_pbEffectGeneral pbEffectGeneral unless method_defined?(:mirror_reflect_pbEffectGeneral)
 
   def pbEffectGeneral(user)
     respond_to?(:mirror_reflect_pbEffectGeneral) ? mirror_reflect_pbEffectGeneral(user) : super
@@ -11437,7 +11437,7 @@ class Battle::Move::StartReflect
 end
 
 class Battle::Move::StartLightScreen
-  alias mirror_lightscreen_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias mirror_lightscreen_pbEffectGeneral pbEffectGeneral unless method_defined?(:mirror_lightscreen_pbEffectGeneral)
 
   def pbEffectGeneral(user)
     respond_to?(:mirror_lightscreen_pbEffectGeneral) ? mirror_lightscreen_pbEffectGeneral(user) : super
@@ -11461,7 +11461,7 @@ class Battle::Move::StartAuroraVeil
       mirror_auroraveil_pbFailsAgainstTarget?(user, target, show_message) : super
   end
 
-  alias mirror_auroraveil_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias mirror_auroraveil_pbEffectGeneral pbEffectGeneral unless method_defined?(:mirror_auroraveil_pbEffectGeneral)
 
   def pbEffectGeneral(user)
     respond_to?(:mirror_auroraveil_pbEffectGeneral) ? mirror_auroraveil_pbEffectGeneral(user) : super
@@ -11476,7 +11476,7 @@ end
 # MOVE: Secret Power — lower Evasion (fully override base effect)
 #──────────────────────────────────────────────────────────────────────────────
 class Battle::Move::EffectDependsOnEnvironment
-  alias mirror_secretpower_pbAdditionalEffect pbAdditionalEffect if method_defined?(:pbAdditionalEffect)
+  alias mirror_secretpower_pbAdditionalEffect pbAdditionalEffect unless method_defined?(:mirror_secretpower_pbAdditionalEffect)
 
   def pbAdditionalEffect(user, target)
     if @battle.has_field? && MIRROR_ARENA_IDS.include?(@battle.current_field.id)
@@ -11699,7 +11699,7 @@ Battle::AbilityEffects::DamageCalcFromTarget.add(:FLOWERGARDEN_GRASS_IMMUNITY,
 
 # MOVE: Growth — amplified at stage 1 (×2 like sun), ×3 at stage 3+
 class Battle::Move::RaiseUserAtkSpAtk1
-  alias flowergarden_growth_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias flowergarden_growth_pbEffectGeneral pbEffectGeneral unless method_defined?(:flowergarden_growth_pbEffectGeneral)
 
   def pbEffectGeneral(user)
     if @id == :GROWTH &&
@@ -11717,7 +11717,7 @@ end
 
 # MOVE: Rototiller — additionally boosts Atk and SpAtk regardless of type
 class Battle::Move::RaisePlusGroundedGrassTypes
-  alias flowergarden_rototiller_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias flowergarden_rototiller_pbEffectGeneral pbEffectGeneral unless method_defined?(:flowergarden_rototiller_pbEffectGeneral)
 
   def pbEffectGeneral(user)
     respond_to?(:flowergarden_rototiller_pbEffectGeneral) ? flowergarden_rototiller_pbEffectGeneral(user) : super
@@ -11729,7 +11729,7 @@ end
 
 # MOVE: Flower Shield — stage 2+ boosts SpDef and user defenses regardless of type
 class Battle::Move::RaiseGroundedGrassDefense1
-  alias flowergarden_flowershield_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias flowergarden_flowershield_pbEffectGeneral pbEffectGeneral unless method_defined?(:flowergarden_flowershield_pbEffectGeneral)
 
   def pbEffectGeneral(user)
     respond_to?(:flowergarden_flowershield_pbEffectGeneral) ? flowergarden_flowershield_pbEffectGeneral(user) : super
@@ -11748,7 +11748,7 @@ end
 
 # MOVE: Sweet Scent — stage 3+ additionally lowers target Def and SpDef
 class Battle::Move::LowerTargetEvasiveness1
-  alias flowergarden_sweetscent_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias flowergarden_sweetscent_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:flowergarden_sweetscent_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     respond_to?(:flowergarden_sweetscent_pbEffectAgainstTarget) ? flowergarden_sweetscent_pbEffectAgainstTarget(user, target) : super
@@ -11765,7 +11765,7 @@ end
 
 # MOVE: Floral Healing — stage 3+ fully heals
 class Battle::Move::HealTargetDependingOnGrassyTerrain
-  alias flowergarden_floralhealing_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias flowergarden_floralhealing_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:flowergarden_floralhealing_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     if @id == :FLORALHEALING &&
@@ -11786,7 +11786,7 @@ end
 
 # Infestation EOR damage scales with stage (base 1/8; stage 3=1/6, stage 4=1/4, stage 5=1/3)
 class Battle
-  alias flowergarden_pbEndOfRoundPhase pbEndOfRoundPhase if method_defined?(:pbEndOfRoundPhase)
+  alias flowergarden_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:flowergarden_pbEndOfRoundPhase)
 
   def pbEndOfRoundPhase
     flowergarden_pbEndOfRoundPhase
@@ -11935,7 +11935,7 @@ Battle::AbilityEffects::DamageCalcFromUser.add(:POWERSPOT_PSYTERRAIN,
 
 # Kinesis — additionally lowers target Atk and SpAtk by 2
 class Battle::Move::LowerTargetAccuracy1
-  alias psyterrain_kinesis_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias psyterrain_kinesis_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:psyterrain_kinesis_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     respond_to?(:psyterrain_kinesis_pbEffectAgainstTarget) ? psyterrain_kinesis_pbEffectAgainstTarget(user, target) : super
@@ -11949,7 +11949,7 @@ end
 
 # Telekinesis — additionally lowers target Def and SpDef by 2
 class Battle::Move::StartTelekinesis
-  alias psyterrain_telekinesis_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias psyterrain_telekinesis_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:psyterrain_telekinesis_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     respond_to?(:psyterrain_telekinesis_pbEffectAgainstTarget) ? psyterrain_telekinesis_pbEffectAgainstTarget(user, target) : super
@@ -11961,7 +11961,7 @@ end
 
 # Psyshield Bash — additionally boosts SpDef on hit
 class Battle::Move::PhysicalDamageStatUpAlly
-  alias psyterrain_psyshieldbash_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias psyterrain_psyshieldbash_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:psyterrain_psyshieldbash_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     respond_to?(:psyterrain_psyshieldbash_pbEffectAgainstTarget) ? psyterrain_psyshieldbash_pbEffectAgainstTarget(user, target) : super
@@ -11974,7 +11974,7 @@ end
 
 # Esper Wing — speed boost doubled
 class Battle::Move
-  alias psyterrain_esperwing_pbAdditionalEffect pbAdditionalEffect if method_defined?(:pbAdditionalEffect)
+  alias psyterrain_esperwing_pbAdditionalEffect pbAdditionalEffect unless method_defined?(:psyterrain_esperwing_pbAdditionalEffect)
 
   def pbAdditionalEffect(user, target)
     respond_to?(:psyterrain_esperwing_pbAdditionalEffect) ? psyterrain_esperwing_pbAdditionalEffect(user, target) : super
@@ -11988,7 +11988,7 @@ end
 
 # Mystical Power — SpAtk boost doubled
 class Battle::Move
-  alias psyterrain_mysticalpower_pbAdditionalEffect pbAdditionalEffect if method_defined?(:pbAdditionalEffect)
+  alias psyterrain_mysticalpower_pbAdditionalEffect pbAdditionalEffect unless method_defined?(:psyterrain_mysticalpower_pbAdditionalEffect)
 
   def pbAdditionalEffect(user, target)
     respond_to?(:psyterrain_mysticalpower_pbAdditionalEffect) ? psyterrain_mysticalpower_pbAdditionalEffect(user, target) : super
@@ -12001,7 +12001,7 @@ end
 
 # Shattered Psyche — confuses target
 class Battle::Move
-  alias psyterrain_shatteredpsyche_pbEffectAfterAllHits pbEffectAfterAllHits if method_defined?(:pbEffectAfterAllHits)
+  alias psyterrain_shatteredpsyche_pbEffectAfterAllHits pbEffectAfterAllHits unless method_defined?(:psyterrain_shatteredpsyche_pbEffectAfterAllHits)
 
   def pbEffectAfterAllHits(user, target)
     respond_to?(:psyterrain_shatteredpsyche_pbEffectAfterAllHits) ? psyterrain_shatteredpsyche_pbEffectAfterAllHits(user, target) : super
@@ -12016,7 +12016,7 @@ end
 
 # Psych Up / Meditate / Mind Reader / Miracle Eye — additionally boost SpAtk +2
 class Battle::Move
-  alias psyterrain_psychup_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias psyterrain_psychup_pbEffectGeneral pbEffectGeneral unless method_defined?(:psyterrain_psychup_pbEffectGeneral)
 
   def pbEffectGeneral(user)
     respond_to?(:psyterrain_psychup_pbEffectGeneral) ? psyterrain_psychup_pbEffectGeneral(user) : super
@@ -12028,7 +12028,7 @@ end
 
 # Gravity / Trick Room / Magic Room / Wonder Room — 8 turns on PsyTerrain
 class Battle::Move::StartGravity
-  alias psyterrain_gravity_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias psyterrain_gravity_pbEffectGeneral pbEffectGeneral unless method_defined?(:psyterrain_gravity_pbEffectGeneral)
 
   def pbEffectGeneral(user)
     respond_to?(:psyterrain_gravity_pbEffectGeneral) ? psyterrain_gravity_pbEffectGeneral(user) : super
@@ -12038,7 +12038,7 @@ class Battle::Move::StartGravity
 end
 
 class Battle::Move::StartTrickRoom
-  alias psyterrain_trickroom_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias psyterrain_trickroom_pbEffectGeneral pbEffectGeneral unless method_defined?(:psyterrain_trickroom_pbEffectGeneral)
 
   def pbEffectGeneral(user)
     respond_to?(:psyterrain_trickroom_pbEffectGeneral) ? psyterrain_trickroom_pbEffectGeneral(user) : super
@@ -12048,7 +12048,7 @@ class Battle::Move::StartTrickRoom
 end
 
 class Battle::Move::StartMagicRoom
-  alias psyterrain_magicroom_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias psyterrain_magicroom_pbEffectGeneral pbEffectGeneral unless method_defined?(:psyterrain_magicroom_pbEffectGeneral)
 
   def pbEffectGeneral(user)
     respond_to?(:psyterrain_magicroom_pbEffectGeneral) ? psyterrain_magicroom_pbEffectGeneral(user) : super
@@ -12058,7 +12058,7 @@ class Battle::Move::StartMagicRoom
 end
 
 class Battle::Move::StartWonderRoom
-  alias psyterrain_wonderroom_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias psyterrain_wonderroom_pbEffectGeneral pbEffectGeneral unless method_defined?(:psyterrain_wonderroom_pbEffectGeneral)
 
   def pbEffectGeneral(user)
     respond_to?(:psyterrain_wonderroom_pbEffectGeneral) ? psyterrain_wonderroom_pbEffectGeneral(user) : super
@@ -12094,7 +12094,7 @@ ENCHANTED_FOREST_IDS = %i[enchantedforest].freeze
 
 # Moonlight: heal 2/3 HP (override base 50%/25%/25%)
 class Battle::Move::HealUserDependingOnWeather
-  alias enchanted_moonlight_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias enchanted_moonlight_pbEffectGeneral pbEffectGeneral unless method_defined?(:enchanted_moonlight_pbEffectGeneral)
 
   def pbEffectGeneral(user)
     if @id == :MOONLIGHT &&
@@ -12113,7 +12113,7 @@ end
 
 # Strength Sap: additionally lowers SpAtk after lowering Atk
 class Battle::Move::LowerTargetAtkHealUserByTargetAtkStat
-  alias enchanted_strengthsap_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias enchanted_strengthsap_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:enchanted_strengthsap_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     respond_to?(:enchanted_strengthsap_pbEffectAgainstTarget) ? enchanted_strengthsap_pbEffectAgainstTarget(user, target) : super
@@ -12133,7 +12133,7 @@ SAHARA_FIELD_IDS = %i[sahara].freeze
 
 # Sand Attack — amplified: lower Accuracy 2 stages instead of 1
 class Battle::Move::LowerTargetAccuracy1
-  alias sahara_sandattack_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias sahara_sandattack_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:sahara_sandattack_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     if @id == :SANDATTACK &&
@@ -12159,7 +12159,7 @@ POISON_LIBRARY_IDS = %i[poisonlibrary].freeze
 #===============================================================================
 
 class Battle::Move::EffectDependsOnEnvironment
-  alias sky_secretpower_pbAdditionalEffect pbAdditionalEffect if method_defined?(:pbAdditionalEffect)
+  alias sky_secretpower_pbAdditionalEffect pbAdditionalEffect unless method_defined?(:sky_secretpower_pbAdditionalEffect)
 
   def pbAdditionalEffect(user, target)
     if @battle.has_field? && SKY_FIELD_IDS.include?(@battle.current_field.id)
@@ -12176,7 +12176,7 @@ end
 
 # Dragon Dance: +2 Atk +2 Speed (instead of +1/+1)
 class Battle::Move::RaiseUserAtkSpeed2
-  alias dragonsden_dragondance_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias dragonsden_dragondance_pbEffectGeneral pbEffectGeneral unless method_defined?(:dragonsden_dragondance_pbEffectGeneral)
 
   def pbEffectGeneral(user)
     if @battle.has_field? && DRAGONS_DEN_IDS.include?(@battle.current_field.id)
@@ -12190,7 +12190,7 @@ end
 
 # Noble Roar: -2 Atk -2 SpAtk (handled via class override — extend from Fairy Tale chain)
 class Battle::Move::LowerTargetAtkSpAtk1
-  alias dragonsden_nobleroar_pbEffectAgainstTarget pbEffectAgainstTarget if method_defined?(:pbEffectAgainstTarget)
+  alias dragonsden_nobleroar_pbEffectAgainstTarget pbEffectAgainstTarget unless method_defined?(:dragonsden_nobleroar_pbEffectAgainstTarget)
 
   def pbEffectAgainstTarget(user, target)
     if @id == :NOBLEROAR &&
@@ -12206,7 +12206,7 @@ end
 
 # Coil: +2 Atk +2 Def +2 Acc
 class Battle::Move::RaiseUserAtkDefAcc1
-  alias dragonsden_coil_pbEffectGeneral pbEffectGeneral if method_defined?(:pbEffectGeneral)
+  alias dragonsden_coil_pbEffectGeneral pbEffectGeneral unless method_defined?(:dragonsden_coil_pbEffectGeneral)
 
   def pbEffectGeneral(user)
     if @battle.has_field? && DRAGONS_DEN_IDS.include?(@battle.current_field.id)
@@ -12281,7 +12281,7 @@ end
 
 # Normalize effect: all moves become Normal type for inverse_normalized battlers
 class Battle::Move
-  alias inverse_normalize_pbCalcType pbCalcType if method_defined?(:pbCalcType)
+  alias inverse_normalize_pbCalcType pbCalcType unless method_defined?(:inverse_normalize_pbCalcType)
 
   def pbCalcType(user)
     if @battle.has_field? && INVERSE_FIELD_IDS.include?(@battle.current_field.id)
@@ -12297,7 +12297,7 @@ end
 # Hook into pbReducePP to double PP loss for pressure-targeted moves
 #─────────────────────────────────────────────────────────────────────────────
 class Battle::Battler
-  alias dimensional_pressure_pbReducePP pbReducePP if method_defined?(:pbReducePP)
+  alias dimensional_pressure_pbReducePP pbReducePP unless method_defined?(:dimensional_pressure_pbReducePP)
 
   def pbReducePP(move)
     # Call the base implementation and capture its return value (true = ok, false = no PP)
