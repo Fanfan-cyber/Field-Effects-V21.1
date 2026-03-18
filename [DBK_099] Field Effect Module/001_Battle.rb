@@ -376,8 +376,15 @@ class Battle
         Console.echo_li("Processing EOR effects for #{battler.pbThis}")
       end
       apply_field_effect(:EOR_field_battler, battler)
-      battler.pbFaint if battler.fainted?
-      return if decision != 0 # end of battle
+      # Use pbCheckFaint instead of pbFaint directly so that trainer
+      # replacement is properly prompted when an opposing Pokémon faints
+      # from a field damage tick (e.g. scorching heat, volcanic fire, etc.).
+      # pbFaint only plays the faint animation; pbCheckFaint also runs the
+      # full post-faint flow including queuing a trainer switch-in.
+      if battler.fainted?
+        pbCheckFaint(battler.index)
+        return if decision != 0 # end of battle
+      end
     end
 
     field_duration_countdown

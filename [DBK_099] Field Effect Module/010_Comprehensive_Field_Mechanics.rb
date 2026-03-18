@@ -892,7 +892,10 @@ class Battle::Field
         else
           # Damage - don't show animation or message, pbReduceHP with registerDamage=true handles it
           battler.pbReduceHP(amount, false, true)
-          battler.pbFaint if battler.fainted?
+          # Do NOT call battler.pbFaint here. The outer end_of_round_field_process
+          # loop calls pbCheckFaint after this proc returns, which plays the faint
+          # animation AND triggers trainer replacement. Calling pbFaint here would
+          # bypass replacement and cause a double-faint animation.
         end
       end
     }
@@ -5462,7 +5465,7 @@ Battle::AbilityEffects::SpeedCalc.add(:SLUSHRUSH,
 Battle::AbilityEffects::AccuracyCalcFromTarget.add(:SNOWCLOAK,
   proc { |ability, mods, user, target, move, type|
     if target.battle.has_field? && target.battle.current_field.id == :icy
-      mults[:accuracy_multiplier] *= 0.8  # 20% harder to hit (inverse of 1.25 evasion)
+      mods[:accuracy_multiplier] *= 0.8  # 20% harder to hit (inverse of 1.25 evasion)
     end
   }
 )
