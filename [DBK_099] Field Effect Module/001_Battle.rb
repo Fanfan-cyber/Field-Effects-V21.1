@@ -372,10 +372,9 @@ class Battle
     apply_field_effect(:EOR_field_battle)
     eachBattler do |battler|
       next unless battler && !battler.fainted?
-      if $DEBUG
-        Console.echo_li("Processing EOR effects for #{battler.pbThis}")
-      end
+      Console.echo_li("Processing EOR effects for #{battler.pbThis}") if $DEBUG
       apply_field_effect(:EOR_field_battler, battler)
+<<<<<<< Updated upstream
       # Use pbCheckFaint instead of pbFaint directly so that trainer
       # replacement is properly prompted when an opposing Pokémon faints
       # from a field damage tick (e.g. scorching heat, volcanic fire, etc.).
@@ -385,7 +384,20 @@ class Battle
         pbCheckFaint(battler.index)
         return if decision != 0 # end of battle
       end
+=======
+      # Do NOT call pbCheckFaint here. PE's own pbEndOfRoundPhase runs next
+      # (via field_pbEndOfRoundPhase) and its faint sweep / pbSwitchInBetweenTurns
+      # handles all replacements in one clean pass. Calling pbCheckFaint here
+      # triggers a premature replacement prompt in double battles, causing the
+      # partner AI to send out a Pokémon that has already fainted.
+>>>>>>> Stashed changes
     end
+
+    # Apply passive field damage (volcanic heat, underwater, etc.) here so it
+    # runs before PE's own EOR faint sweep rather than after it. Running it
+    # after (the old alias in 009) meant faints from passive damage were never
+    # caught by PE's replacement flow in double battles.
+    apply_field_passive_damage
 
     field_duration_countdown
     remove_field

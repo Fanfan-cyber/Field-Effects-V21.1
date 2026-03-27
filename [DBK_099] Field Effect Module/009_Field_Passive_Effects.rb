@@ -11,19 +11,30 @@ class Battle
   # Apply passive damage from fields at end of round
   def apply_field_passive_damage
     return unless has_field?
-    
+    # Fields that define :healthChanges in their fieldtxt data already apply
+    # EOR damage through register_health_changes -> EOR_field_battler, which
+    # fires earlier in end_of_round_field_process (001_Battle.rb).  Applying
+    # damage here a second time causes the double-hit and the phantom extra
+    # turn when a Pokemon faints (the turn runs before the replacement is
+    # prompted because faint handling is bypassed in this path).
+    return if @current_field.health_changes&.any?
+
     allBattlers.each do |battler|
       next if battler.fainted?
-      
+
       damage_amount = field_passive_damage_amount(battler)
       next unless damage_amount && damage_amount > 0
-      
+
       # Apply the damage
       battler.pbTakeEffectDamage(damage_amount, false)
-      
+
       # Display message
       message = field_passive_damage_message(battler)
       pbDisplay(message) if message
+      # HP may now be 0; PE's own EOR faint sweep (pbSwitchInBetweenTurns)
+      # handles replacement. Do NOT call pbCheckFaint here — it fires before
+      # PE's replacement flow and causes the double-battle partner AI to queue
+      # a Pokémon that has already fainted.
     end
   end
   
@@ -86,7 +97,10 @@ class Battle::Battler
   # Check if battler should take field passive damage
   def should_take_field_passive_damage?
     return false if fainted?
-    
+    # Fields with :healthChanges registered handle their own EOR damage via
+    # register_health_changes. Don't double-count them here.
+    return false if @battle.current_field&.health_changes&.any?
+
     case @battle.current_field&.id
     when :volcanic, :superheated, :volcanictop, :infernal
       return burning_field_passive_damage?
@@ -509,15 +523,8 @@ end
 
 #===============================================================================
 # End of Round Integration
+# NOTE: apply_field_passive_damage is called directly from end_of_round_field_process
+# in 001_Battle.rb, which runs before PE's own pbEndOfRoundPhase. This ensures
+# passive field damage faints are caught by PE's natural faint sweep rather than
+# being handled after PE's replacement flow has already completed.
 #===============================================================================
-Battle.class_eval do
-  alias field_passive_pbEndOfRoundPhase pbEndOfRoundPhase unless method_defined?(:field_passive_pbEndOfRoundPhase)
-  
-  def pbEndOfRoundPhase
-    # Call original method first
-    field_passive_pbEndOfRoundPhase
-    
-    # Apply field passive damage
-    apply_field_passive_damage
-  end
-end

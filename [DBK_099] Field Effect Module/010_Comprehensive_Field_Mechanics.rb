@@ -890,12 +890,23 @@ class Battle::Field
             @battle.pbDisplay(message.gsub("{1}", battler.pbThis).gsub("{2}", @name))
           end
         else
-          # Damage - don't show animation or message, pbReduceHP with registerDamage=true handles it
+          # Damage
           battler.pbReduceHP(amount, false, true)
+<<<<<<< Updated upstream
           # Do NOT call battler.pbFaint here. The outer end_of_round_field_process
           # loop calls pbCheckFaint after this proc returns, which plays the faint
           # animation AND triggers trainer replacement. Calling pbFaint here would
           # bypass replacement and cause a double-faint animation.
+=======
+          # Display the damage message now that HP has been reduced.
+          # Previously this was omitted ("don't show message"), which is why
+          # fields like Volcanic showed no EOR damage text.
+          if message
+            @battle.pbDisplay(message.gsub("{1}", battler.pbThis).gsub("{2}", @name))
+          end
+          # Do NOT call battler.pbFaint here. The outer end_of_round_field_process
+          # loop lets PE's own faint sweep handle replacement cleanly in doubles.
+>>>>>>> Stashed changes
         end
       end
     }
@@ -4275,7 +4286,7 @@ class Battle
     end
     
     # Clear hazards and Leech Seed
-    eachSide do |side|
+    @sides.each do |side|
       side.effects[PBEffects::StealthRock] = false
       side.effects[PBEffects::Spikes] = 0
       side.effects[PBEffects::ToxicSpikes] = 0
