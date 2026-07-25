@@ -541,8 +541,7 @@ FIELDEFFECTS = {
 	:moveEffects => {},
 	:typeBoosts => {
 		1.5 => [:FIRE],
-		0.5 => [:WATER],
-		0.5 => [:GRASS, :ICE],
+		0.5 => [:WATER, :GRASS, :ICE],
 	},
 	:typeMessages => {
 		"The blaze amplified the attack!" => [:FIRE],
@@ -2196,7 +2195,6 @@ FIELDEFFECTS = {
 		"The battle was taken to the skies!" => [:FLY, :BOUNCE],
 		"The mountain erupted!" => [:LAVAPLUME, :ERUPTION, :INFERNOOVERDRIVE],
 	},
-	:statusMods => [:TAILWIND, :SUNNYDAY],
 	:changeEffects => {},
 	:seed => {
 		:seedtype => :TELLURICSEED,
@@ -2287,7 +2285,6 @@ FIELDEFFECTS = {
 		"The mountain erupted!" => [:ERUPTION],
 		"The battle was taken to the skies!" => [:FLY, :BOUNCE],
 	},
-	:statusMods => [:TAILWIND, :SUNNYDAY, :HAIL],
 	:changeEffects => {},
 	:seed => {
 		:seedtype => :TELLURICSEED,
