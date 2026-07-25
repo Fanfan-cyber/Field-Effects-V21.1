@@ -4195,3 +4195,4 @@ FIELDEFFECTS = {
 		:statusMods => [],
 	},
 },
+}
