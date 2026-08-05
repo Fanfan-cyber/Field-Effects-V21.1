@@ -49,6 +49,7 @@ class FieldTextParser
         super(battle, duration)
         
         @id = field_id_lower
+        @graphic_id = field_id_lower
         @name = data[:name] || field_id.to_s.capitalize
         
         # Set field properties from text data
@@ -846,6 +847,10 @@ class FieldTextParser
           # The class name (Field_forest_greenwood etc.) is what lets
           # create_new_field locate us directly from the backdrop string.
           @id = parent_id
+          # @graphic_id records which specific variant was actually loaded,
+          # so backdrop rendering can pick the matching bg image (e.g. Hepi_bg)
+          # instead of always falling back to the parent field's own image.
+          @graphic_id = graphic_sym
         end
       end
 

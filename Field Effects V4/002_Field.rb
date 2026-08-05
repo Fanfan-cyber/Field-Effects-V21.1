@@ -1,6 +1,7 @@
 class Battle::Field
   attr_reader :battle
   attr_reader :id, :name, :duration, :effects, :field_announcement
+  attr_accessor :graphic_id  # which :graphic entry created this instance, for backdrop lookup
   attr_reader :multipliers, :strengthened_message, :weakened_message
   attr_reader :nature_power_change, :mimicry_type, :camouflage_type, :secret_power_effect, :terrain_pulse_type
   attr_reader :tailwind_duration, :floral_heal_amount
@@ -57,6 +58,7 @@ class Battle::Field
     @battle                    = battle
     @duration                  = duration
     @id                        = field_id
+    @graphic_id                = field_id # default; overridden by graphic-variant alias classes
     
     # Initialize defaults before loading data
     @effects                   = {}

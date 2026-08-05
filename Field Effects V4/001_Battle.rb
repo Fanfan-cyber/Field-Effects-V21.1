@@ -50,9 +50,9 @@ class Battle
   alias field_backdrop backdrop
   def backdrop
     if has_field? && !@current_field.is_base?
-      field_id = @current_field.id.to_s.downcase
-      bg_path  = "Graphics/Battlebacks/#{field_id}_bg"
-      return field_id if pbResolveBitmap(bg_path)
+      graphic_id = (@current_field.graphic_id || @current_field.id).to_s.downcase
+      bg_path    = "Graphics/Battlebacks/#{graphic_id}_bg"
+      return graphic_id if pbResolveBitmap(bg_path)
     end
     field_backdrop
   end
@@ -643,7 +643,8 @@ class Battle::Scene
         @sprites["base_1"].setBitmap(@environment_enemyBase)
       end
     else
-      field_id = @battle.current_field.id.to_s.downcase
+      current = @battle.current_field
+      field_id = (current.graphic_id || current.id).to_s.downcase
       return if !field_id || field_id.empty?
       root = "Graphics/Battlebacks"
       battle_bg_path = "#{root}/#{field_id}_bg"
