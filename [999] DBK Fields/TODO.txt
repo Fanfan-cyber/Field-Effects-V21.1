@@ -1,0 +1,21 @@
+- GENERAL
+Camouflage changing primary type
+Mimicry changing secondary type
+Secret Power and Hidden Power working the same
+
+[Forest Fire]
+*	Grass-Type moves have 30% chance to burn the target
+*	Grass-Type Pokémon that stay on the field for 3 turns are inflicted with BURN Status (unless Aqua Ring or Dampened Terrain is active)
+*	Wood Hammer can burn the Target
+*	Pokémon can't be FROZEN or Frostbitten
+
+[Dark Forest]
+*	Multitype and RKS System always making the user Dark-Type
+*	Magic Guard and Magic Bounce only work if the user is Dark-Type
+*	Dark-Type moves ignore stat changes
+
+
+[Light Forest]
+*	Multitype and RKS System always making the user Light-Type
+*	Magic Guard and Magic Bounce only work if the user is Light-Type
+*	Fairy-Type moves ignore stat changes
