@@ -490,7 +490,25 @@ class FieldTextParser
             if change_conditions && change_conditions[new_field]
               condition = change_conditions[new_field]
               begin
-                next unless eval(condition)
+                condition_str = condition.dup
+                condition_str.gsub!('attacker', 'user')
+                condition_str.gsub!('opponent', 'target')
+                condition_str.gsub!('isAirborne?', 'airborne?')
+                condition_str.gsub!('!user.airborne?', 'user.grounded?')
+                condition_str.gsub!('!target.airborne?', 'target.grounded?')
+                # Fix self.move (move ID check) before replacing 'self' broadly
+                condition_str.gsub!('self.move', 'move.id')
+                # Replace remaining 'self' with 'move' (method calls on the move object)
+                condition_str.gsub!('self', 'move')
+                # Fix move.move that could still remain
+                condition_str.gsub!('move.move', 'move.id')
+                # PE21 method names: strip any argument and use the correct no-arg versions
+                condition_str.gsub!(/\.pbIsSpecial\?\([^)]*\)/, '.specialMove?')
+                condition_str.gsub!(/\.pbIsPhysical\?\([^)]*\)/, '.physicalMove?')
+                condition_str.gsub!('pbIsSpecial?', 'specialMove?')
+                condition_str.gsub!('pbIsPhysical?', 'physicalMove?')
+
+                next unless eval(condition_str)
               rescue
                 next
               end
