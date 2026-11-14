@@ -32,11 +32,12 @@ class Battle
     @field_counters.instance_variable_set(:@counter, 0)
     @field_counters.instance_variable_set(:@counter2, 0)
     @field_counters.instance_variable_set(:@counter3, 0)
+    @field_counters.instance_variable_set(:@counter4, 0)
     @field_counters.instance_variable_set(:@backup, nil)
     
     # Define getter and setter methods
     class << @field_counters
-      attr_accessor :counter, :counter2, :counter3, :backup
+      attr_accessor :counter, :counter2, :counter3, :counter4, :backup
     end
     
     create_base_field
@@ -50,11 +51,19 @@ class Battle
   alias field_backdrop backdrop
   def backdrop
     if has_field? && !@current_field.is_base?
-      graphic_id = (@current_field.graphic_id || @current_field.id).to_s.downcase
-      bg_path    = "Graphics/Battlebacks/#{graphic_id}_bg"
-      return graphic_id if pbResolveBitmap(bg_path)
+      stem = field_backdrop_stems(@current_field).find { |s| pbResolveBitmap("Graphics/Battlebacks/#{s}_bg") }
+      return stem if stem
     end
     field_backdrop
+  end
+
+  # Battleback name candidates for a field, in priority order: the graphic variant
+  # that created it (graphic_id), its own id, then the :graphic entries in its field
+  # data (e.g. WATERSURFACE has :graphic => ["Water"], so it can use water_bg).
+  def field_backdrop_stems(field)
+    data  = Battle::Field.field_data[field.id]
+    extra = data ? Array(data[:environment]) : []
+    return [field.graphic_id, field.id, *extra].compact.map { |s| s.to_s.downcase }.uniq
   end
 
   alias field_pbStartBattle pbStartBattle
@@ -91,6 +100,16 @@ class Battle
 
   def create_base_field
     create_new_field(:Base, Battle::Field::INFINITE_FIELD_DURATION)
+  end
+
+  def pbChangeBattleField(new_field, _silent = false)
+    if new_field.nil? || new_field.to_s.upcase == "NONE"
+      return unless has_field?
+      remove_field(remove_all: true)
+      end_field_process
+    else
+      create_new_field(new_field, Battle::Field::DEFAULT_FIELD_DURATION)
+    end
   end
 
   # the test field now is Electric, field duration is 3
@@ -643,18 +662,32 @@ class Battle::Scene
         @sprites["base_1"].setBitmap(@environment_enemyBase)
       end
     else
-      current = @battle.current_field
-      field_id = (current.graphic_id || current.id).to_s.downcase
-      return if !field_id || field_id.empty?
-      root = "Graphics/Battlebacks"
-      battle_bg_path = "#{root}/#{field_id}_bg"
-      return unless pbResolveBitmap(battle_bg_path)
-      @sprites["battle_bg"].setBitmap(battle_bg_path) if @sprites["battle_bg"]
-      base0_path = "#{root}/#{field_id}_base0"
-      base1_path = "#{root}/#{field_id}_base1"
-      @sprites["base_0"].setBitmap(base0_path) if @sprites["base_0"] && pbResolveBitmap(base0_path)
-      @sprites["base_1"].setBitmap(base1_path) if @sprites["base_1"] && pbResolveBitmap(base1_path)
+      stems   = @battle.field_backdrop_stems(@battle.current_field)
+      bg_path = field_battleback_path(stems, "bg")
+      return if !bg_path   # field has no battleback of its own: leave the backdrop alone
+      @sprites["battle_bg"].setBitmap(bg_path) if @sprites["battle_bg"]
+      base0_path = field_battleback_path(stems, "base0")
+      base1_path = field_battleback_path(stems, "base1")
+      @sprites["base_0"].setBitmap(base0_path) if @sprites["base_0"] && base0_path
+      @sprites["base_1"].setBitmap(base1_path) if @sprites["base_1"] && base1_path
     end
+  end
+
+  # Finds Graphics/Battlebacks/<stem>[_eve|_night]_<suffix> for the first stem that has
+  # one, trying the time-of-day variant before the plain file (same naming PE's
+  # pbCreateBackdropSprites uses: water_bg, water_eve_bg, water_night_bg).
+  def field_battleback_path(stems, suffix)
+    time = [nil, "eve", "night"][@battle.time.to_i]
+    stems.each do |stem|
+      names = []
+      names.push("#{stem}_#{time}_#{suffix}") if time
+      names.push("#{stem}_#{suffix}")
+      names.each do |name|
+        path = "Graphics/Battlebacks/#{name}"
+        return path if pbResolveBitmap(path)
+      end
+    end
+    return nil
   end
 
   alias field_pbCreateBackdropSprites pbCreateBackdropSprites

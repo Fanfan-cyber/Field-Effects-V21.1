@@ -109,6 +109,7 @@ Battle::AbilityEffects::SpeedCalc.add(:SWIFTSWIM,
     battle = battler.battle
     # Field condition — always fast on Water Surface regardless of weather.
     next mult * 2 if battle.has_field? && WATER_SURFACE_IDS.include?(battle.current_field.id)
+    next mult * 2 if battle.has_field? && DAM_FIELD_IDS.include?(battle.current_field.id) && battler.grounded?
     # Base condition — rain, respecting Cloud Nine / Air Lock via effectiveWeather.
     next mult * 2 if [:Rain, :HeavyRain].include?(battler.effectiveWeather)
     next mult
@@ -125,6 +126,7 @@ Battle::AbilityEffects::SpeedCalc.add(:SURGESURFER,
   proc { |ability, battler, mult|
     battle = battler.battle
     # Plugin Electric Terrain field.
+    next mult * 2 if battle.has_field? && DAM_FIELD_IDS.include?(battle.current_field.id) && battler.grounded?
     next mult * 2 if battle.has_field? && ELECTRIC_TERRAIN_IDS.include?(battle.current_field.id)
     # Base game Electric Terrain (from base PE battle field object).
     next mult * 2 if battle.field.terrain == :Electric
@@ -364,6 +366,11 @@ Battle::AbilityEffects::OnBeingHit.add(:GULPMISSILE,
       end
       # Electric Terrain — only a Surf or Dive hit catches a Pikachu (form 2).
       if ELECTRIC_TERRAIN_IDS.include?(field_id)
+        next unless [:SURF, :DIVE].include?(move.id)
+        target.pbChangeForm(2, _INTL("{1} caught a Pikachu!", target.pbThis))
+        next
+      end
+      if DAM_FIELD_IDS.include?(field_id)
         next unless [:SURF, :DIVE].include?(move.id)
         target.pbChangeForm(2, _INTL("{1} caught a Pikachu!", target.pbThis))
         next

@@ -94,11 +94,11 @@ class Battle::Field
       # Safety check - ensure multipliers is initialized and not nil
       return unless @multipliers && @multipliers.is_a?(Hash)
       @multipliers.each do |mult_data, calc_proc|
-        mult = mult_data[1]
-        next if mult == 1.0
+        next if mult_data[1] == 1.0
         ret = calc_proc&.call(user, target, numTargets, move, type, power, mults)
         next unless ret
         mult_type = mult_data[0]
+        mult = Battle::Field.difficulty_scaled_multiplier(mult_data[1], mult_type)
         mult_msg = mult_data[2]
         mults[mult_type] *= mult
         #echoln(mults)

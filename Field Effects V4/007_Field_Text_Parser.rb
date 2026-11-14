@@ -171,6 +171,14 @@ class FieldTextParser
           end
         end
         
+        # Parse ability multiplier overrides
+        if data[:abilityMods]
+          @ability_mods = data[:abilityMods]
+          if $DEBUG
+            Console.echo_li("[PARSER] Loaded abilityMods for #{@name}: #{@ability_mods.inspect}")
+          end
+        end
+
         # Parse ability stat boosts
         if data[:abilityStatBoosts]
           @ability_stat_boosts = data[:abilityStatBoosts]
@@ -470,13 +478,10 @@ class FieldTextParser
         @effects[:move_second_type] = proc { |effectiveness, move, moveType, defType, user, target|
           # Check existing type mods first
           result = existing_effect&.call(effectiveness, move, moveType, defType, user, target)
-          return result if result
+          next result if result
           
-          # Then check type add-ons
-          type_addons.each do |secondary_type, primary_types|
-            next secondary_type if primary_types.include?(moveType)
-          end
-          next nil
+          match = type_addons.find { |secondary_type, primary_types| primary_types.include?(moveType) }
+          next match ? match[0] : nil
         }
       end
       
@@ -674,11 +679,12 @@ class FieldTextParser
             end
             
             # Apply special effect
-            if @seed_effect
+            if @seed_effect && PBEffects.const_defined?(@seed_effect)
+              effect_const = PBEffects.const_get(@seed_effect)
               if @seed_duration == true
-                battler.effects[@seed_effect] = -1  # Permanent effect
+                battler.effects[effect_const] = -1  # Permanent effect
               elsif @seed_duration.is_a?(Integer)
-                battler.effects[@seed_effect] = @seed_duration
+                battler.effects[effect_const] = @seed_duration
               end
             end
             

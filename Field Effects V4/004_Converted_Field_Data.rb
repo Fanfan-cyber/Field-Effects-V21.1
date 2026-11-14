@@ -409,6 +409,7 @@ class Battle
     @field_counters.counter  = 0
     @field_counters.counter2 = 0
     @field_counters.counter3 = 0
+    @field_counters.counter4 = 0
   end
 end
 

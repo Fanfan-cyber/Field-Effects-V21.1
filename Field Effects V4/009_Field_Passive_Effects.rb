@@ -274,7 +274,7 @@ class Battle
       
     when :shortcircuit
       # Short Circuit rolls for damage multiplier
-      choices = [0, 1, 2, 3, 4, 5, 6]
+      choices = [0, 1, 2, 3, 4]
       counter = @field_counters.counter
       result = choices[counter % choices.length]
       @field_counters.counter = (counter + 1) % choices.length if update_roll
@@ -299,6 +299,7 @@ class Battle
     @field_counters.counter = 0
     @field_counters.counter2 = 0
     @field_counters.counter3 = 0
+    @field_counters.counter4 = 0
     @field_counters.backup = nil
   end
   
@@ -308,7 +309,8 @@ class Battle
     @field_counters.backup = {
       counter: @field_counters.counter,
       counter2: @field_counters.counter2,
-      counter3: @field_counters.counter3
+      counter3: @field_counters.counter3,
+      counter4: @field_counters.counter4
     }
   end
   
@@ -318,6 +320,7 @@ class Battle
     @field_counters.counter = @field_counters.backup[:counter] || 0
     @field_counters.counter2 = @field_counters.backup[:counter2] || 0
     @field_counters.counter3 = @field_counters.backup[:counter3] || 0
+    @field_counters.counter4 = @field_counters.backup[:counter4] || 0
   end
 end
 

@@ -94,7 +94,7 @@ class Battle::Move
   def pbCalcDamageMultipliers(user, target, numTargets, type, baseDmg, multipliers)
     @battle.apply_field_effect(:calc_damage, user, target, numTargets, self, type, baseDmg, multipliers)
 
-    multipliers[:final_damage_multiplier] *= 0.5 if target.effects[PBEffects::Shelter] && target.effects[PBEffects::Shelter] == type
+    multipliers[:final_damage_multiplier] *= 0.5 if PBEffects.const_defined?(:Shelter) && target.effects[PBEffects::Shelter] == type
 
     field_pbCalcDamageMultipliers(user, target, numTargets, type, baseDmg, multipliers)
   end

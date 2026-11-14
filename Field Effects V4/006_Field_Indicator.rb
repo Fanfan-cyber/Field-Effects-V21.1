@@ -41,6 +41,7 @@ class Battle
           
           # Apply the multiplier
           mult_type = mult_data[0]
+          base_mult = Battle::Field.difficulty_scaled_multiplier(base_mult, mult_type)
           if mult_type == :defense_multiplier
             # Defense multiplier reduces effective damage
             total_multiplier *= (1.0 / base_mult)
